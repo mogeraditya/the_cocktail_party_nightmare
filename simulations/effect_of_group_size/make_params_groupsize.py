@@ -18,7 +18,9 @@ import statsmodels.api as sm
 
 join_into_string = lambda Y: '*'.join(map(lambda X:str(X), Y))
 
-all_group_sizes = [200,300]
+wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
+
+all_group_sizes = [20,30,40]
 interpulse_duration = [0.1]
 call_duration = [0.0025]
 shadowing = [True]
@@ -28,7 +30,7 @@ group_heading_variation = [10]
 atmospheric_absorption = [-1]
 number_of_simulation_runs =  1
 
-with open('../common_simulation_parameters.paramset','rb') as pklfile:
+with open(wd+'/common_simulation_parameters.paramset','rb') as pklfile:
     simulation_parameters = dill.load(pklfile)
     
 simulation_parameters['echoes_beyond_ipi'] = True
@@ -61,5 +63,6 @@ for group_size in all_group_sizes:
                                 variables_as_string = join_into_string(all_params)
     
                                 param_filename = 'simulation_parameters_' + variables_as_string+'_.paramset'
+                                os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_group_size/paramsets")
                                 with open(param_filename,'wb') as pklfile:
                                     dill.dump(simulation_parameters, pklfile)

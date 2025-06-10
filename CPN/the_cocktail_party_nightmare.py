@@ -30,8 +30,9 @@ repository is written by Johannes Dollinger and licensed under an MIT License.
 """
 import os
 import sys 
-sys.path.append('../bridson/')
-sys.path.append('../acoustics/')
+wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
+sys.path.append(wd+'/bridson/')
+sys.path.append(wd+'/acoustics/')
 import pdb
 import numpy as np
 import pandas as pd
@@ -1665,7 +1666,7 @@ def find_nearbypoints(all_points, focalpoint_index, numnearpoints):
     if numnearpoints >  numrows-1 :
         raise ValueError('The number of neighbours requested is more than the number of points given!! ')
 
-    if not focalpoint_index in xrange(numrows):
+    if not focalpoint_index in range(numrows):
         raise IndexError('The given focalpoint index is not within the range of the array!')
 
     validpoints = np.delete(all_points,focalpoint_index,0)
@@ -1894,7 +1895,7 @@ def calculate_conspecificcallreceived_levels(conspecificcall_paths,
     hearing_directionality = kwargs['hearing_directionality']
     source_level = kwargs['source_level']
     num_calls = len(conspecificcall_paths['call_routes'])
-    conspecific_calls = pd.DataFrame(data=[], index=xrange(num_calls),
+    conspecific_calls = pd.DataFrame(data=[], index=range(num_calls),
                                      columns=['start','stop','theta', 'level',
                                               'route'])
         
@@ -2608,6 +2609,7 @@ def run_CPN(**kwargs):
                             
 
     '''
+    print(kwargs["Nbats"])
     assert kwargs['Nbats'] >= 1, 'The cocktail party nightmare has to have >= 1 bats! '
     
     # place Nbats out and choose the centremost bat as the focal bat 

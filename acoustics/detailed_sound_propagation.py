@@ -388,10 +388,15 @@ def rot_mat(theta):
                                     [np.sin(theta), np.cos(theta)])))
     return(rotation_matrix)
 
+# import pickle
+# x= r'/home/adityamoger/Documents/GitHub/cocktail_clone/data/acoustic_shadowing_model.pkl'
+# with open(x, 'rb') as file:
+#     data = pickle.load(file)
 
+# with open("df3.pkl", "wb") as f:
+#     pickle.dump(data, f, encoding="bytes")
 
-
-    
+# print(data)
   
 if __name__ == '__main__':
 #    kwargs = {'rectangle_width':0.1, 'implement_shadowing':True,
@@ -420,7 +425,7 @@ if __name__ == '__main__':
     kwargs['R'] = 2.0
     kwargs['implement_shadowing'] = False
     kwargs['rectangle_width'] = 0.3
-    kwargs['acoustic_shadowing_model'] = sm.load('../data/acoustic_shadowing_model.pkl')
+    kwargs['acoustic_shadowing_model'] = sm.load('/home/adityamoger/Documents/GitHub/cocktail_clone/data/acoustic_shadowing_model_p3.pkl')
     kwargs['min_spacing'] = 1.0
     kwargs['emitted_source_level'] = {'dBSPL':90, 'ref_distance':1.0}
 

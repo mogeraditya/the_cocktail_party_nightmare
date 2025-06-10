@@ -11,11 +11,14 @@ import dill
 import numpy as np 
 import pandas as pd
 import statsmodels.api as sm
+import os
 
-bistatic_TS_file = '..//data//bistatic_TS_bat.csv'
-shadowing_model_file = '..//data//acoustic_shadowing_model.pkl'
-tempmasking_file = '..//data//temporal_masking_function.pkl'
-spatial_unmasking_file = '..//data//spatial_release_fn.csv'
+os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/")
+wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
+bistatic_TS_file = wd+'//data//bistatic_TS_bat.csv'
+shadowing_model_file = wd+'//data//acoustic_shadowing_model_p3.pkl'
+tempmasking_file = wd+'//data//temporal_masking_function_p3.pkl'
+spatial_unmasking_file = wd+'//data//spatial_release_fn.csv'
 
 
 kwargs={}

@@ -15,11 +15,14 @@ import pdb
 import uuid
 import os 
 import sys 
-sys.path.append('../CPN/')
+wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
+sys.path.append(wd+"/CPN/")
 import numpy as np 
 
 from the_cocktail_party_nightmare import run_CPN
 
+
+           
 argparser = argparse.ArgumentParser()
 argparser.add_argument('-param_file', action='store',dest='parameter_fileformat')
 argparser.add_argument('-numCPUS','-numCPUs', action='store', dest='num_cpus',
@@ -103,12 +106,12 @@ def run_and_save_one_simulation(id_and_params):
     simulation_identifiers, parameter_set = id_and_params
     #generate unique id for this simulation 
     file_uuid = str(uuid.uuid4())
-    unique_seed = int(hashlib.sha1(file_uuid).hexdigest(), 16) % (2**30)
+    unique_seed = int(hashlib.sha1(file_uuid.encode('utf-8')).hexdigest(), 16) % (2**30)
     np.random.seed(unique_seed)
     # run simulation 
     
     num_echoes, sim_output = run_CPN(**parameter_set)
-    
+    print(sim_output)
     # save outputs 
     simulation_identifiers['uuid'] = file_uuid
     simulation_identifiers['np.random.seed'] = unique_seed
@@ -155,7 +158,9 @@ def run_multiple_simulations(name, info,
               False if not. 
             
     '''
+    os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_group_size/paramsets")
     parameter_files = glob.glob(parameter_file_format)
+    # print(parameter_files)
     parameter_sets = load_all_parameters(parameter_files)
     
     
@@ -168,7 +173,7 @@ def run_multiple_simulations(name, info,
         simulation_identifiers['parameter_set'] = each_paramset
 
         each_paramset['dest_folder'] = dest_folder
-        for _ in xrange(each_paramset['Nruns']):
+        for _ in range(10):#each_paramset['Nruns']):
             id_and_paramsets.append([simulation_identifiers, each_paramset])
         
     
@@ -182,14 +187,34 @@ class FailedParameterLoading(ValueError):
     pass
     
     
-    
+os.chdir(wd)    
 
-if __name__  == '__main__':
-    run_multiple_simulations(args.name, args.info, 
-                             args.parameter_fileformat,
-                             args.num_cpus, args.dest_folder)
+# if __name__  == '__main__':
+#     run_multiple_simulations(args.name, args.info, 
+#                              args.parameter_fileformat,
+#                              args.num_cpus, args.dest_folder)
+    
+run_multiple_simulations(name="group_size", info="trail run",
+                                 parameter_file_format="*.paramset",
+                             num_CPUs=4,
+                             dest_folder="/home/adityamoger/Documents/GitHub/cocktail_clone/simulation_results")    
     
     
-    
-    
+# os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_group_size/paramsets")
+# parameter_files = glob.glob("*.paramset")
+# parameter_sets = load_all_parameters(parameter_files)
 
+
+
+# id_and_paramsets = []
+# for i,each_paramset in enumerate(parameter_sets):
+#     simulation_identifiers = {}
+#     simulation_identifiers['name'] = "group_size"
+#     simulation_identifiers['info'] = "trial_run"
+#     simulation_identifiers['parameter_set'] = each_paramset
+
+#     each_paramset['dest_folder'] = "/home/adityamoger/Documents/GitHub/cocktail_clone/simulation_results"
+#     for _ in range(2):#each_paramset['Nruns']):
+#         id_and_paramsets.append([simulation_identifiers, each_paramset])
+# print(np.array(id_and_paramsets).shape)
+# run_and_save_one_simulation(id_and_paramsets[0])
