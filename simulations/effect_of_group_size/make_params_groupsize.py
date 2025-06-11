@@ -20,7 +20,7 @@ join_into_string = lambda Y: '*'.join(map(lambda X:str(X), Y))
 
 wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
 
-all_group_sizes = [20,30,40]
+all_group_sizes = [5,10,30,50,75,100,200]
 interpulse_duration = [0.1]
 call_duration = [0.0025]
 shadowing = [True]
@@ -63,6 +63,6 @@ for group_size in all_group_sizes:
                                 variables_as_string = join_into_string(all_params)
     
                                 param_filename = 'simulation_parameters_' + variables_as_string+'_.paramset'
-                                os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_group_size/paramsets")
+                                os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_group_size/paramsets/central/")
                                 with open(param_filename,'wb') as pklfile:
                                     dill.dump(simulation_parameters, pklfile)
