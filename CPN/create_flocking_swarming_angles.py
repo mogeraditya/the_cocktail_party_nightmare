@@ -2,7 +2,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-def flocking(set_of_all_points, resolution):
+def generate_heading_vectors_concentric_circles(set_of_all_points, resolution):
     '''Goal is to create heading directions in a flock like pattern. 
         * Take the center point and make resolution many equal angled sections of 2*pi. 
         * Assign heading angle based on which section they belong to. 
@@ -58,7 +58,7 @@ def flocking(set_of_all_points, resolution):
 
     return vector_angles
 
-def swarming(**kwargs):
+def generate_heading_vectors_all_angles(**kwargs):
     '''Goal is to create heading directions in a swarm like pattern. 
         * random heading directions are chosen from -Pi to +Pi.
 

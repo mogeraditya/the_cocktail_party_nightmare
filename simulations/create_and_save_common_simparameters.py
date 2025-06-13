@@ -12,13 +12,12 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 import os
-
-os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/")
-wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
-bistatic_TS_file = wd+'//data//bistatic_TS_bat.csv'
-shadowing_model_file = wd+'//data//acoustic_shadowing_model_p3.pkl'
-tempmasking_file = wd+'//data//temporal_masking_function_p3.pkl'
-spatial_unmasking_file = wd+'//data//spatial_release_fn.csv'
+print(os.getcwd())
+os.chdir("../data/")
+bistatic_TS_file = 'bistatic_TS_bat.csv'
+shadowing_model_file = 'acoustic_shadowing_model_p3.pkl'
+tempmasking_file = 'temporal_masking_function_p3.pkl'
+spatial_unmasking_file = 'spatial_release_fn.csv'
 
 
 kwargs={}
@@ -54,6 +53,6 @@ kwargs['call_directionality'] = lambda  X, A=7 : A*(np.cos(np.deg2rad(X))-1)
 kwargs['hearing_directionality'] = lambda X, B=2 : B*(np.cos(np.deg2rad(X))-1)
 
 
-common_parameters = 'common_simulation_parameters.paramset'
+common_parameters = '../common_simulation_parameters.paramset'
 with open(common_parameters,'wb') as paramsfile:
     dill.dump(kwargs, paramsfile)

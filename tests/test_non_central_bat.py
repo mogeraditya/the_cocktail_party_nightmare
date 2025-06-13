@@ -13,7 +13,10 @@ def make_dir(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
+wd="../cocktail_clone/"
+os.chdir(wd)
+print (os.getcwd())
+print(glob.glob("*.md"))
 sys.path.append(wd+"/CPN/")
 import the_cocktail_party_nightmare as CPN
 import create_flocking_swarming_angles as flsw

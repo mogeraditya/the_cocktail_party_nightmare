@@ -18,7 +18,7 @@ import statsmodels.api as sm
 
 join_into_string = lambda Y: '*'.join(map(lambda X:str(X), Y))
 
-wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
+wd="../"
 
 all_group_sizes = [5,10,30,50,75,100,200]
 interpulse_duration = [0.1]

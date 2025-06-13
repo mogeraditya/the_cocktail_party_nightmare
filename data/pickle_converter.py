@@ -35,7 +35,7 @@ def convert(old_pkl):
 #     args = parser.parse_args()
 
 #     convert(args.infile)
-wd= "/home/adityamoger/Documents/GitHub/cocktail_clone/data"
+wd= "../data"
 os.chdir(wd)
 pickle2_files= glob.glob("*.pkl")
 pickle2_files=[i for i in pickle2_files if i[-7:-4]!= "_p3"]

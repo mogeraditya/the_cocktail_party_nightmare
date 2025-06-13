@@ -6,7 +6,7 @@ import pandas as pd
 import statsmodels
 
 
-def convert(old_pkl):
+def convert_pickle_py2_to_py3(old_pkl):
     """
     Convert a Python 2 pickle to Python 3
     """
@@ -35,6 +35,8 @@ def convert(old_pkl):
 #     args = parser.parse_args()
 
 #     convert(args.infile)
-wd= "/home/adityamoger/Documents/GitHub/cocktail_clone/acoustics"
+import glob
+print(os.getcwd())
+wd= "../data/"
 os.chdir(wd)
-convert("acoustic_shadowing_model.pkl")
+convert_pickle_py2_to_py3("acoustic_shadowing_model.pkl")

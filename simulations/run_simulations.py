@@ -15,7 +15,7 @@ import pdb
 import uuid
 import os 
 import sys 
-wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
+wd="../"
 sys.path.append(wd+"/CPN/")
 import numpy as np 
 
@@ -161,7 +161,7 @@ def run_multiple_simulations(name, info,
               False if not. 
             
     '''
-    os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_group_size/paramsets/"+folder_id)
+
     parameter_files = glob.glob(parameter_file_format)
     # print(parameter_files)
     parameter_sets = load_all_parameters(parameter_files)
@@ -176,7 +176,7 @@ def run_multiple_simulations(name, info,
         simulation_identifiers['parameter_set'] = each_paramset
         make_dir(dest_folder+folder_id)
         each_paramset['dest_folder'] = dest_folder+folder_id
-        for _ in range(200):#each_paramset['Nruns']):
+        for _ in range(100):#each_paramset['Nruns']):
             id_and_paramsets.append([simulation_identifiers, each_paramset])
         
     
@@ -189,22 +189,21 @@ def run_multiple_simulations(name, info,
 class FailedParameterLoading(ValueError):
     pass
     
-    
-os.chdir(wd)    
 
 # if __name__  == '__main__':
 #     run_multiple_simulations(args.name, args.info, 
 #                              args.parameter_fileformat,
 #                              args.num_cpus, args.dest_folder)
-print(glob.glob("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_group_size/paramsets/*"))
-all_folders_of_paramsets= glob.glob("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_group_size/paramsets/*")
-for entry in all_folders_of_paramsets:
-    folder_id= entry[93:]
-    # print(folder_id)
-    run_multiple_simulations(name="group_size", info="trail run",
-                                    parameter_file_format="*.paramset",
-                                num_CPUs=10,
-                                dest_folder="/home/adityamoger/Documents/GitHub/cocktail_clone/simulation_results/", folder_id=folder_id)    
+print(os.getcwd())
+all_folders_of_paramsets= glob.glob("../simulations/effect_of_heading_direction/paramsets/*")
+print(np.sort(all_folders_of_paramsets))
+# for entry in all_folders_of_paramsets:
+    
+#     # print(folder_id)
+#     run_multiple_simulations(name="heading_direction", info="trail run",
+#                                     parameter_file_format="*.paramset",
+#                                 num_CPUs=10,
+#                                 dest_folder="../simulation_results/heading_direction/", folder_id=)    
         
     
 # os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_group_size/paramsets")

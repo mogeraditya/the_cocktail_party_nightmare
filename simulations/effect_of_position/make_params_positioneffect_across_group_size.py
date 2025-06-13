@@ -21,7 +21,7 @@ def make_dir(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
+wd="../"
 
 join_into_string = lambda Y: '*'.join(map(lambda X:str(X), Y))
 

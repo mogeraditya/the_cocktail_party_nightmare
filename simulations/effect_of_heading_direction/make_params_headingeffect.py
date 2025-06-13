@@ -1,13 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""Explores the effect of multiple variables on the CPN all for 200 bats -
-which is the a group size at which a focal  bat in the centre can just
-about detect one neighbour per call.
 
-Created on Sun Sep  1 20:22:09 2019
-
-@author: tbeleyur
-"""
 import glob
 import os
 import sys
@@ -31,8 +22,10 @@ atmospheric_absorption =  -1
 number_of_simulation_runs =  200
 radial_distance = [0.25, 0.5, 0.75] 
 azimuth_location = [np.pi/4, 3*np.pi/4, 3*np.pi/2, 5*np.pi/4] 
-
-with open('../common_simulation_parameters.paramset','rb') as pklfile:
+print(os.getcwd())
+# os.chdir("../../")
+# print(os.getcwd())
+with open('../../common_simulation_parameters.paramset','rb') as pklfile:
     simulation_parameters = dill.load(pklfile)
     
 simulation_parameters['echoes_beyond_ipi'] = True
@@ -41,7 +34,7 @@ i = 0
 
 for group_size in group_sizes:
     for heading_var in group_heading_variation:
-        i += 1
+        i += 1; 
         simulation_parameters['Nbats']  = group_size
         simulation_parameters['Nruns']  = number_of_simulation_runs
         description = str(simulation_parameters['Nruns']) + 'runs across'+str(group_size)
@@ -63,6 +56,6 @@ for group_size in group_sizes:
         variables_as_string = join_into_string(all_params)
 
         param_filename = 'simulation_parameters_' + variables_as_string+'_.paramset'
-        os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_heading_direction/paramsets")
-        with open(param_filename,'wb') as pklfile:
+
+        with open("../effect_of_heading_direction/paramsets/"+param_filename,'wb') as pklfile:
             dill.dump(simulation_parameters, pklfile)

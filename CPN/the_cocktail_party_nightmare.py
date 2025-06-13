@@ -30,7 +30,8 @@ repository is written by Johannes Dollinger and licensed under an MIT License.
 """
 import os
 import sys 
-wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
+wd="../"
+
 sys.path.append(wd+'/bridson/')
 sys.path.append(wd+'/acoustics/')
 import pdb
@@ -2488,9 +2489,9 @@ def place_bats_inspace(**kwargs):
     
     if kwargs["heading_variation"]=="flocking":
         stacked_array= np.rowstack((focal, nearby))
-        headings= flsw.flocking(stacked_array, 32)
+        headings= flsw.generate_heading_vectors_concentric_circles(stacked_array, 32)
     if kwargs["heading_variation"]=="swarming":
-        headings = flsw.swarming(**kwargs)
+        headings = flsw.generate_heading_vectors_all_angles(**kwargs)
     else:    
         min_heading, max_heading = 90 - kwargs['heading_variation'], 90 + kwargs['heading_variation']
         headings = np.random.choice(np.arange(min_heading, max_heading+1),
@@ -2660,4 +2661,3 @@ def run_CPN(**kwargs):
 
 class EchoesOutOfIPI(Exception):
     pass
-
