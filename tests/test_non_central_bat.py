@@ -16,11 +16,12 @@ def make_dir(directory):
 wd="/home/adityamoger/Documents/GitHub/cocktail_clone/"
 sys.path.append(wd+"/CPN/")
 import the_cocktail_party_nightmare as CPN
-# from the_cocktail_party_nightmare import place_bats_inspace
+import create_flocking_swarming_angles as flsw
+
 
 join_into_string = lambda Y: '*'.join(map(lambda X:str(X), Y))
 
-group_sizes = [5,10,30,50,75]
+group_sizes = [75]
 interpulse_duration =  0.1
 call_duration =  0.0025
 shadowing = True
@@ -29,16 +30,29 @@ spacing = 0.5
 group_heading_variation = 10
 atmospheric_absorption =  -1
 number_of_simulation_runs =  200
-radial_distance = [0.2, 0.5, 0.75, 1 ]
-azimuth_location = [np.pi/4, 3*np.pi/4, 3*np.pi/2, 5*np.pi/4] 
+radial_distance = [1]
+azimuth_location = [np.pi/4, 5*np.pi/4] 
 
 with open(wd+'/common_simulation_parameters.paramset','rb') as pklfile:
     simulation_parameters = dill.load(pklfile)
     
 simulation_parameters['echoes_beyond_ipi'] = True
 
-i = 0
 
+def compute_u_v_for_plotting(points, angles):
+    u_v_s= []; i=0
+    for angle in angles:
+        point= points[i]
+        angle_in_radians= math.radians(angle)
+        U= np.cos(angle_in_radians)
+        V= np.sin(angle_in_radians)
+        
+        u_v_s.append([point[0], point[1], U, V])
+        i+=1
+
+    return np.array(u_v_s)
+
+i = 0
 for group_size in group_sizes:
     for r in radial_distance:
         for theta in azimuth_location:
@@ -63,29 +77,25 @@ for group_size in group_sizes:
             #                                                        nbr_distance= simulation_parameters['min_spacing'],
             #                                                        **simulation_parameters)
 
-print(bat_positions[1])
-# plt.show()
 
-all_bat_positions= np.row_stack((bat_positions[1], bat_positions[0]))
-print(len(all_bat_positions))
+            all_bat_positions= np.row_stack((bat_positions[1], bat_positions[0]))
+            flock= flsw.flocking(all_bat_positions, 32)
+            u_v_s= compute_u_v_for_plotting(all_bat_positions, flock)
+            for vector in u_v_s:
+                plt.quiver(*vector, angles="uv")
+            plt.plot(all_bat_positions[1:][:,0], all_bat_positions[1:][:,1], ".")
+            plt.plot(all_bat_positions[0][0], all_bat_positions[1][1], ".", color="red")
+            plt.show()
+
+            swarm= flsw.swarming(**simulation_parameters)
+            u_v_s= compute_u_v_for_plotting(all_bat_positions, swarm)
+            for vector in u_v_s:
+                plt.quiver(*vector, angles="uv")
+            plt.plot(all_bat_positions[1:][:,0], all_bat_positions[1:][:,1], ".")
+            plt.plot(all_bat_positions[0][0], all_bat_positions[1][1], ".", color="red")
+            plt.show()
 
 
-def compute_u_v_for_plotting(points, angles):
-    u_v_s= []; i=0
-    for angle in angles:
-        point= points[i]
-        angle_in_radians= math.radians(angle)
-        U= np.cos(angle_in_radians)
-        V= np.sin(angle_in_radians)
-        u_v_s.append([point[0], point[1], U, V])
-        i+=1
 
-    return np.array(u_v_s)
 
-u_v_s= compute_u_v_for_plotting(all_bat_positions, bats_orientations)
-for vector in u_v_s:
-    plt.quiver(*vector, angles="uv")
 
-plt.plot(all_bat_positions[1:][:,0], all_bat_positions[1:][:,1], ".")
-plt.plot(all_bat_positions[0][0], all_bat_positions[1][1], ".", color="red")
-plt.show()

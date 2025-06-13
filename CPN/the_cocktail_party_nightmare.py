@@ -40,7 +40,7 @@ import scipy.misc as misc
 import scipy.spatial as spl
 from bridson import poisson_disc_samples
 from detailed_sound_propagation import soundprop_w_acoustic_shadowing, calc_RL
- 
+import create_flocking_swarming_angles as flsw
 
 
 def assign_random_arrival_times(sound_df, **kwargs):
@@ -2481,14 +2481,21 @@ def place_bats_inspace(**kwargs):
 		   Heading direction of bats in degrees.
        
     '''
-    min_heading, max_heading = 90 - kwargs['heading_variation'], 90 + kwargs['heading_variation']
-    headings = np.random.choice(np.arange(min_heading, max_heading+1),
-                                kwargs['Nbats'])
     
     nearby, focal = generate_surroundpoints_w_poissondisksampling(kwargs['Nbats'],
                                                                    kwargs['min_spacing'],
                                                                    **kwargs)
-
+    
+    if kwargs["heading_variation"]=="flocking":
+        stacked_array= np.rowstack((focal, nearby))
+        headings= flsw.flocking(stacked_array, 32)
+    if kwargs["heading_variation"]=="swarming":
+        headings = flsw.swarming(**kwargs)
+    else:    
+        min_heading, max_heading = 90 - kwargs['heading_variation'], 90 + kwargs['heading_variation']
+        headings = np.random.choice(np.arange(min_heading, max_heading+1),
+                                kwargs['Nbats'])
+        
     return([nearby, focal], headings)
 
 
