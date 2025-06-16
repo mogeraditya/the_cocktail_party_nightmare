@@ -11,7 +11,7 @@ import statsmodels.api as sm
 
 join_into_string = lambda Y: '*'.join(map(lambda X:str(X), Y))
 
-group_sizes = [5,10,30,50,75]
+group_sizes = [5,10,30,50]
 interpulse_duration =  0.1
 call_duration =  0.0025
 shadowing = True
@@ -19,7 +19,7 @@ source_level =  100
 spacing = 0.5
 group_heading_variation = [0, 10, 30, 50, "swarming", "flocking"]
 atmospheric_absorption =  -1
-number_of_simulation_runs =  200
+number_of_simulation_runs =  100
 radial_distance = [0.25, 0.5, 0.75] 
 azimuth_location = [np.pi/4, 3*np.pi/4, 3*np.pi/2, 5*np.pi/4] 
 print(os.getcwd())
@@ -47,6 +47,7 @@ for group_size in group_sizes:
         simulation_parameters['min_spacing'] = spacing
         simulation_parameters['heading_variation'] = heading_var
         simulation_parameters['atmospheric_attenuation'] = atmospheric_absorption
+        
         # simulation_parameters['noncentral_bat'] = focal_bat_position
 
         all_params = [interpulse_duration, call_duration, shadowing,

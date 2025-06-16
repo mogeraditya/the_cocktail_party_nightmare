@@ -129,7 +129,7 @@ def run_and_save_one_simulation(id_and_params):
 def run_multiple_simulations(name, info,
                                  parameter_file_format,
                              num_CPUs,
-                             dest_folder, folder_id):
+                             dest_folder):
     ''' Set up the simulation to run parallely
     
     Parameters
@@ -166,17 +166,16 @@ def run_multiple_simulations(name, info,
     # print(parameter_files)
     parameter_sets = load_all_parameters(parameter_files)
     
-    
-    
     id_and_paramsets = []
     for i,each_paramset in enumerate(parameter_sets):
+        folder_id= str(each_paramset["heading_variation"])
         simulation_identifiers = {}
         simulation_identifiers['name'] = name
         simulation_identifiers['info'] = info
         simulation_identifiers['parameter_set'] = each_paramset
         make_dir(dest_folder+folder_id)
-        each_paramset['dest_folder'] = dest_folder+folder_id
-        for _ in range(100):#each_paramset['Nruns']):
+        each_paramset['dest_folder'] = dest_folder + folder_id
+        for _ in range(each_paramset['Nruns']):
             id_and_paramsets.append([simulation_identifiers, each_paramset])
         
     
@@ -188,39 +187,17 @@ def run_multiple_simulations(name, info,
     
 class FailedParameterLoading(ValueError):
     pass
-    
 
 # if __name__  == '__main__':
 #     run_multiple_simulations(args.name, args.info, 
 #                              args.parameter_fileformat,
 #                              args.num_cpus, args.dest_folder)
-print(os.getcwd())
-all_folders_of_paramsets= glob.glob("../simulations/effect_of_heading_direction/paramsets/*")
-print(np.sort(all_folders_of_paramsets))
-# for entry in all_folders_of_paramsets:
+# print(os.getcwd())
+# parameter_file_format="./effect_of_heading_direction/paramsets/*"
+# print(glob.glob(parameter_file_format)[0][86:][:-13])
+run_multiple_simulations(name="heading_direction", info="trail run",
+                                parameter_file_format="./effect_of_heading_direction/paramsets/*",
+                            num_CPUs=10,
+                            dest_folder="./effect_of_heading_direction/store_results/")       
     
-#     # print(folder_id)
-#     run_multiple_simulations(name="heading_direction", info="trail run",
-#                                     parameter_file_format="*.paramset",
-#                                 num_CPUs=10,
-#                                 dest_folder="../simulation_results/heading_direction/", folder_id=)    
-        
     
-# os.chdir("/home/adityamoger/Documents/GitHub/cocktail_clone/simulations/effect_of_group_size/paramsets")
-# parameter_files = glob.glob("*.paramset")
-# parameter_sets = load_all_parameters(parameter_files)
-
-
-
-# id_and_paramsets = []
-# for i,each_paramset in enumerate(parameter_sets):
-#     simulation_identifiers = {}
-#     simulation_identifiers['name'] = "group_size"
-#     simulation_identifiers['info'] = "trial_run"
-#     simulation_identifiers['parameter_set'] = each_paramset
-
-#     each_paramset['dest_folder'] = "/home/adityamoger/Documents/GitHub/cocktail_clone/simulation_results"
-#     for _ in range(2):#each_paramset['Nruns']):
-#         id_and_paramsets.append([simulation_identifiers, each_paramset])
-# print(np.array(id_and_paramsets).shape)
-# run_and_save_one_simulation(id_and_paramsets[0])
