@@ -58,7 +58,7 @@ def generate_heading_vectors_concentric_circles(set_of_all_points, resolution):
 
     return vector_angles
 
-def generate_heading_vectors_all_angles(**kwargs):
+def generate_heading_vectors_random_all_angles(**kwargs):
     '''Goal is to create heading directions in a swarm like pattern. 
         * random heading directions are chosen from -Pi to +Pi.
 
