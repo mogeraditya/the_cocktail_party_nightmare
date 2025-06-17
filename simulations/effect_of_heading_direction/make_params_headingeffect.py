@@ -19,9 +19,8 @@ source_level =  100
 spacing = 0.5
 group_heading_variation = [0, 10, 30, 50, "swarming", "flocking"]
 atmospheric_absorption =  -1
-number_of_simulation_runs =  100
-radial_distance = [0.25, 0.5, 0.75] 
-azimuth_location = [np.pi/4, 3*np.pi/4, 3*np.pi/2, 5*np.pi/4] 
+number_of_simulation_runs = 50
+
 print(os.getcwd())
 # os.chdir("../../")
 # print(os.getcwd())
@@ -52,8 +51,8 @@ for group_size in group_sizes:
 
         all_params = [interpulse_duration, call_duration, shadowing,
                           source_level, spacing,
-                          heading_var,
-                          atmospheric_absorption]
+                          atmospheric_absorption, group_size,
+                          heading_var]
         variables_as_string = join_into_string(all_params)
 
         param_filename = 'simulation_parameters_' + variables_as_string+'_.paramset'
