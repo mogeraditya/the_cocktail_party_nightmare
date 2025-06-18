@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 import os
-print(os.getcwd())
+# print(os.getcwd())
 os.chdir("../data/")
 bistatic_TS_file = 'bistatic_TS_bat.csv'
 shadowing_model_file = 'acoustic_shadowing_model_p3.pkl'

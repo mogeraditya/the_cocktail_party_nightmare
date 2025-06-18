@@ -2486,14 +2486,14 @@ def place_bats_inspace(**kwargs):
     nearby, focal = generate_surroundpoints_w_poissondisksampling(kwargs['Nbats'],
                                                                    kwargs['min_spacing'],
                                                                    **kwargs)
-    print(type(kwargs["heading_variation"]))
+    # print(type(kwargs["heading_variation"]))
     if kwargs["heading_variation"]=="flocking":
         stacked_array= np.row_stack((focal, nearby))
         headings= flsw.generate_heading_vectors_concentric_circles(stacked_array, 32)
-        print(kwargs["heading_variation"])
+        # print(kwargs["heading_variation"])
     if kwargs["heading_variation"]=="swarming":
         headings = flsw.generate_heading_vectors_random_all_angles(**kwargs)
-        print(kwargs["heading_variation"])
+        # print(kwargs["heading_variation"])
     if type(kwargs["heading_variation"])==int:
         min_heading, max_heading = 90 - kwargs['heading_variation'], 90 + kwargs['heading_variation']
         headings = np.random.choice(np.arange(min_heading, max_heading+1),
@@ -2619,7 +2619,7 @@ def run_CPN(**kwargs):
                             
 
     '''
-    print(kwargs["Nbats"])
+    # print(kwargs["Nbats"])
     assert kwargs['Nbats'] >= 1, 'The cocktail party nightmare has to have >= 1 bats! '
     
     # place Nbats out and choose the centremost bat as the focal bat 

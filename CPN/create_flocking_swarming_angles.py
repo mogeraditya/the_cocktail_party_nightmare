@@ -27,7 +27,7 @@ def generate_heading_vectors_concentric_circles(set_of_all_points, resolution):
     #this is our center point; now we setup a angle based on resolution
     theta= (2 * np.pi)/ resolution
     transform_points_to_new_center= [i-mean for i in set_of_all_points]
-    print(transform_points_to_new_center)
+    # print(transform_points_to_new_center)
     angles_of_new_points= [np.arctan(i[1]/i[0]) for i in transform_points_to_new_center]
 
     store_final_vector_angle_id=[]; i=0
@@ -44,7 +44,7 @@ def generate_heading_vectors_concentric_circles(set_of_all_points, resolution):
                 new_angle=angle-np.pi
                 id= np.ceil(new_angle/theta)
             else:
-                print(point)
+                # print(point)
                 new_angle=angle+np.pi
                 id= np.ceil(new_angle/theta)
         store_final_vector_angle_id.append(id); i+=1
@@ -54,7 +54,7 @@ def generate_heading_vectors_concentric_circles(set_of_all_points, resolution):
         vector_angles.append(np.degrees((np.pi/2)+id*theta))
         # else:
     
-    print(angles_of_new_points, store_final_vector_angle_id)
+    # print(angles_of_new_points, store_final_vector_angle_id)
 
     return vector_angles
 

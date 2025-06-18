@@ -129,7 +129,7 @@ def run_and_save_one_simulation(id_and_params):
 def run_multiple_simulations(name, info,
                                  parameter_file_format,
                              num_CPUs,
-                             dest_folder):
+                             dest_folder, varying_param):
     ''' Set up the simulation to run parallely
     
     Parameters
@@ -168,7 +168,7 @@ def run_multiple_simulations(name, info,
     
     id_and_paramsets = []
     for i,each_paramset in enumerate(parameter_sets):
-        folder_id= str(each_paramset["heading_variation"])
+        folder_id= str(each_paramset[varying_param])
         simulation_identifiers = {}
         simulation_identifiers['name'] = name
         simulation_identifiers['info'] = info
@@ -177,7 +177,7 @@ def run_multiple_simulations(name, info,
         each_paramset['dest_folder'] = dest_folder + folder_id
         for _ in range(each_paramset['Nruns']):
             id_and_paramsets.append([simulation_identifiers, each_paramset])
-        
+        print(dest_folder+folder_id)
     
     success = Parallel(n_jobs=num_CPUs,
                            verbose=1, backend="loky")(map(delayed(run_and_save_one_simulation),
@@ -195,9 +195,18 @@ class FailedParameterLoading(ValueError):
 # print(os.getcwd())
 # parameter_file_format="./effect_of_heading_direction/paramsets/*"
 # print(glob.glob(parameter_file_format)[0][86:][:-13])
-run_multiple_simulations(name="heading_direction", info="trail run",
-                                parameter_file_format="./effect_of_heading_direction/paramsets/*",
+
+# run_multiple_simulations(name="heading_direction", info="trail run",
+#                                 parameter_file_format="./effect_of_heading_direction/paramsets/*",
+#                             num_CPUs=10,
+#                             dest_folder="./effect_of_heading_direction/store_results/", varying_param= "heading_direction")       
+    
+run_multiple_simulations(name="focal_bat_r", info="trail run",
+                                parameter_file_format="./effect_of_position_focal_bat_r/paramsets/*",
                             num_CPUs=10,
-                            dest_folder="./effect_of_heading_direction/store_results/")       
-    
-    
+                            dest_folder="./effect_of_position_focal_bat_r/store_results/", varying_param="central_bat")       
+
+# run_multiple_simulations(name="focal_bat_theta", info="trail run",
+#                                 parameter_file_format="./effect_of_position_focal_bat_theta/paramsets/*",
+#                             num_CPUs=10,
+#                             dest_folder="./effect_of_position_focal_bat_theta/store_results/", varying_param="noncentral_bat")       
