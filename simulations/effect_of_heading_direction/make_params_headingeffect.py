@@ -21,7 +21,7 @@ group_heading_variation = [0, 10, 30, 50, "swarming", "flocking"]
 atmospheric_absorption =  -1
 number_of_simulation_runs = 50
 
-print(os.getcwd())
+# print(os.getcwd())
 # os.chdir("../../")
 # print(os.getcwd())
 with open('../../common_simulation_parameters.paramset','rb') as pklfile:
