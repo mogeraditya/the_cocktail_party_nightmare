@@ -196,15 +196,15 @@ class FailedParameterLoading(ValueError):
 # parameter_file_format="./effect_of_heading_direction/paramsets/*"
 # print(glob.glob(parameter_file_format)[0][86:][:-13])
 
-# run_multiple_simulations(name="heading_direction", info="trail run",
-#                                 parameter_file_format="./effect_of_heading_direction/paramsets/*",
-#                             num_CPUs=10,
-#                             dest_folder="./effect_of_heading_direction/store_results/", varying_param= "heading_direction")       
-    
-run_multiple_simulations(name="focal_bat_r", info="trail run",
-                                parameter_file_format="./effect_of_position_focal_bat_r/paramsets/*",
+run_multiple_simulations(name="heading_direction", info="trail run",
+                                parameter_file_format="./effect_of_heading_direction/paramsets/*",
                             num_CPUs=10,
-                            dest_folder="./effect_of_position_focal_bat_r/store_results/", varying_param="central_bat")       
+                            dest_folder="./effect_of_heading_direction/store_results/", varying_param= "heading_variation")       
+    
+# run_multiple_simulations(name="focal_bat_r", info="trail run",
+#                                 parameter_file_format="./effect_of_position_focal_bat_r/paramsets/*",
+#                             num_CPUs=10,
+#                             dest_folder="./effect_of_position_focal_bat_r/store_results/", varying_param="central_bat")       
 
 # run_multiple_simulations(name="focal_bat_theta", info="trail run",
 #                                 parameter_file_format="./effect_of_position_focal_bat_theta/paramsets/*",
