@@ -1348,7 +1348,105 @@ def generate_surroundpoints_w_poissondisksampling(npoints, nbr_distance, **kwarg
     else:
         return(nearby_points, centremost_pt)
 
+"""
+START OF ENTRY BY ADITYA MOGER
+"""
 
+def generate_line_thresholds_given_theta_d(theta, d, threshold):
+    #threshold is in terms fraction of d/ how many times of d is the threshodl
+    bound= d*threshold
+
+    #the middle line is at origin; slope is in terms of theta from 0 (radians)
+    intercept= bound/np.cos(theta)
+    slope= np.tan(theta)
+
+    return (slope, intercept)
+
+def check_if_given_point_between_two_lines(lines, point):
+    #lines are parallel
+    slope, intercept= lines
+    sign_for_upper_line= np.sign(point[1]-slope*point[0]-intercept)
+    sign_for_lower_line= np.sign(point[1]-slope*point[0]+intercept)
+    if sign_for_upper_line==sign_for_lower_line:
+        return False
+    # if sign_for_upper_line==0 or sign_for_lower_line==0:
+    #     return True
+    else: 
+        return True
+    
+def check_quadrant(theta, point):
+    #check if point lies in the correct quadrant
+    if (point[0], point[1]) == (0,0):
+        return True
+    if point[0]==0:
+        #add a small float
+        point[0]+= np.cos(np.pi/2)
+    if point[1]==0:
+        point[1]+= np.cos(np.pi/2)
+
+    sign_of_sin_cos= (np.sign(np.cos(theta)), np.sign(np.sin(theta)))
+    sign_of_point= (np.sign(point[0]), np.sign(point[1]))
+
+    if sign_of_point==sign_of_sin_cos:
+        return True
+    else:
+        return False
+
+def dist_from_origin(point):
+    return np.sqrt(point[0]**2 + point[1]**2)
+
+def check_distance(number_of_d,d, point, theta, line_slope_intercept):
+    if check_if_given_point_between_two_lines(line_slope_intercept, point) and check_quadrant(theta, point):
+        distance_upper_limit= d*(number_of_d+0.5); distance_lower_limit= d*(number_of_d-0.5)
+        distance_from_origin= dist_from_origin(point)
+        if distance_from_origin>distance_lower_limit and distance_from_origin<=distance_upper_limit:
+            return True
+        else:
+            return False
+    else:
+        return False
+    
+def generate_subset_of_points_given_d(nearby_points, centremost_point, number_of_d, d, theta, threshold):
+    transform_nearby_points_st_center_is_origin= nearby_points-centremost_point
+    centre_and_other_pts_transformed = np.row_stack((np.array([0,0]), transform_nearby_points_st_center_is_origin))
+    # d= kwargs['min_spacing']
+    line_slope_intercept= generate_line_thresholds_given_theta_d(theta, d, threshold)    
+    subset_of_points= []
+    indices= []
+    iterant=0
+    for point in centre_and_other_pts_transformed[1:]:
+        if check_distance(number_of_d, d, point, theta, line_slope_intercept):
+            subset_of_points.append(point)
+            indices.append(iterant)
+        iterant+=1
+    return np.array(subset_of_points), np.array(indices)
+
+def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
+
+    d= kwargs['min_spacing']
+    subset_of_points=[]
+    iterant=0
+    while len(subset_of_points)==0 and iterant<100:
+        nearby_points,centremost_point = generate_surroundpoints_w_poissondisksampling(kwargs['Nbats'],
+                                                                    kwargs['min_spacing'],
+                                                                    **kwargs)
+        subset_of_points, indices_of_points= generate_subset_of_points_given_d(nearby_points, centremost_point, number_of_d, d, theta, threshold)
+        iterant+=1
+    
+    if iterant==100:
+        raise Exception("Doesn't_Work_For_Given_N*d")
+
+    random_index= np.random.randint(0, len(subset_of_points))
+    focal_bat_new= subset_of_points[random_index]+ centremost_point; focal_bat_new_index= indices_of_points[random_index]
+    nearby_points_without_new_focal_bat= np.delete(nearby_points, focal_bat_new_index, axis=0)
+    # print(nearby_points_without_new_focal_bat)
+    new_nearby_points= np.row_stack((centremost_point, nearby_points_without_new_focal_bat))
+    
+    return new_nearby_points, focal_bat_new
+
+"""
+END OF ENTRY BY ADITYA MOGER
+"""
 
 def choose_a_noncentral_bat(noncentral_bat,
                             nearby_points,
@@ -2482,10 +2580,15 @@ def place_bats_inspace(**kwargs):
 		   Heading direction of bats in degrees.
        
     '''
-    
-    nearby, focal = generate_surroundpoints_w_poissondisksampling(kwargs['Nbats'],
-                                                                   kwargs['min_spacing'],
-                                                                   **kwargs)
+    if kwargs["change_focal_bat_d"] == False:
+        nearby, focal = generate_surroundpoints_w_poissondisksampling(kwargs['Nbats'],
+                                                                    kwargs['min_spacing'],
+                                                                    **kwargs)
+    else:
+        number_of_d, theta, threshold= kwargs["change_focal_bat_d"]
+        nearby, focal = generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs)
+
+        
     # print(type(kwargs["heading_variation"]))
     if kwargs["heading_variation"]=="flocking":
         stacked_array= np.row_stack((focal, nearby))
