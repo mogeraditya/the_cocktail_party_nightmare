@@ -15,7 +15,7 @@ wd="../../"
 
 join_into_string = lambda Y: '*'.join(map(lambda X:str(X), Y))
 
-group_sizes = [75,50,30,20,10,5]
+group_sizes = [100,75,50,40,30,20,10,5]
 interpulse_duration =  0.1
 call_duration =  0.0025
 shadowing = True
@@ -25,8 +25,8 @@ group_heading_variation = 10
 atmospheric_absorption =  -1
 number_of_simulation_runs =  100
 # radial_distance = [0.2, 0.5, 0.75]
-azimuth_location = 3*np.pi/2 
-radial_values=[1,2,3,4,5,6]
+azimuth_location = [np.pi/2, 3*np.pi/2] 
+radial_values=[1,2,3,4]
 threshold= 0.25
 with open(wd+'/common_simulation_parameters.paramset','rb') as pklfile:
     simulation_parameters = dill.load(pklfile)
@@ -38,10 +38,10 @@ i = 0
 for group_size in group_sizes:
     for radial_value in radial_values:
     # for r in radial_distance:
-    #     for theta in azimuth_location:
+        for theta in azimuth_location:
             i += 1
             # focal_bat_position = (0,0)
-            simulation_parameters["change_focal_bat_d"] = (radial_value, azimuth_location, threshold)
+            simulation_parameters["change_focal_bat_d"] = (radial_value, theta, threshold)
             simulation_parameters['Nbats']  = group_size
             simulation_parameters['Nruns']  = number_of_simulation_runs
             description = str(simulation_parameters['Nruns']) + 'runs across'+str(group_size)
@@ -60,7 +60,7 @@ for group_size in group_sizes:
                             source_level, spacing,
                             group_heading_variation,
                             atmospheric_absorption, group_size,
-                            azimuth_location, threshold, radial_value]
+                            theta, threshold, radial_value]
             variables_as_string = join_into_string(all_params)
 
             param_filename = 'simulation_parameters_' + variables_as_string+'_.paramset'

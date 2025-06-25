@@ -10,6 +10,7 @@ from the_cocktail_party_nightmare import generate_surroundpoints_w_poissondisksa
 
 
 def generate_line_thresholds_given_theta_d(theta, d, threshold):
+    
     #threshold is in terms fraction of d/ how many times of d is the threshodl
     bound= d*threshold
 
@@ -83,14 +84,14 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
     d= kwargs['min_spacing']
     subset_of_points=[]
     iterant=0
-    while len(subset_of_points)==0 and iterant<100:
+    while len(subset_of_points)==0 and iterant<200:
         nearby_points,centremost_point = generate_surroundpoints_w_poissondisksampling(kwargs['Nbats'],
                                                                     kwargs['min_spacing'],
                                                                     **kwargs)
         subset_of_points, indices_of_points= generate_subset_of_points_given_d(nearby_points, centremost_point, number_of_d, d, theta, threshold)
         iterant+=1
     
-    if iterant==100:
+    if iterant==200:
         raise Exception("Doesn't_Work_For_Given_N*d")
 
     random_index= np.random.randint(0, len(subset_of_points))
@@ -109,7 +110,7 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
 # else:
 #     print("cunttty")
 
-group_size = 75
+group_size = 40
 interpulse_duration =  0.1
 call_duration =  0.0025
 shadowing = True
@@ -134,7 +135,7 @@ simulation_parameters['heading_variation'] = group_heading_variation
 simulation_parameters['atmospheric_attenuation'] = atmospheric_absorption
 
 try:
-    new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(6, np.pi/2, 0.25, **simulation_parameters)
+    new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(5, 3*np.pi/2, 0.25, **simulation_parameters)
 except Exception:
     print("aiyo amma tai")
 

@@ -1422,7 +1422,34 @@ def generate_subset_of_points_given_d(nearby_points, centremost_point, number_of
     return np.array(subset_of_points), np.array(indices)
 
 def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
+    '''Chooses a  non central bat as the focal individual.
+        The auditory scene is calculated with respect to this
+        non central individual then. 
 
+        Parameters
+        -------
+        number_of_d :   int
+                        desired radial distance of the noncentral bat from the focal bat in terms of number of minimum spacing between bats
+
+        theta   :   float
+                    0 < theta < 2pi radians.
+                    The azimuthal location of the desired noncentral
+                    bat. 0 degrees is 3 o'clock and
+                    the angles increase in a counter-clockwise
+                    direction.
+
+        threshold   :   float
+                        0 < threshold.
+                        threshold*min_spacing is the allowed error range.
+                        if any existing points lie within this error range from the desired point, they are shortlisted.
+                        new_focal_bat is randomly picked from all the shortlisted points 
+        Returns
+        --------
+        rearranged_nearby_points : Nbats-1 x 2 np.array
+
+        focal_bat_new : 1 x 2 np.array. 
+                    The focal point chosen according to the r,theta positions
+        '''
     d= kwargs['min_spacing']
     subset_of_points=[]
     iterant=0
@@ -1437,12 +1464,13 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
         raise Exception("Doesn't_Work_For_Given_N*d")
 
     random_index= np.random.randint(0, len(subset_of_points))
-    focal_bat_new= subset_of_points[random_index]+ centremost_point; focal_bat_new_index= indices_of_points[random_index]
-    nearby_points_without_new_focal_bat= np.delete(nearby_points, focal_bat_new_index, axis=0)
+    focal_bat_new= subset_of_points[random_index]+ centremost_point 
+    focal_bat_rearranged__index= indices_of_points[random_index]
+    nearby_points_without_rearranged__focal_bat= np.delete(nearby_points, focal_bat_rearranged__index, axis=0)
     # print(nearby_points_without_new_focal_bat)
-    new_nearby_points= np.row_stack((centremost_point, nearby_points_without_new_focal_bat))
+    rearranged_nearby_points= np.row_stack((centremost_point, nearby_points_without_rearranged__focal_bat))
     
-    return new_nearby_points, focal_bat_new
+    return rearranged_nearby_points, focal_bat_new
 
 """
 END OF ENTRY BY ADITYA MOGER

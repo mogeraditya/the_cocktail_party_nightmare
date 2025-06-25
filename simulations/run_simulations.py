@@ -112,16 +112,18 @@ def run_and_save_one_simulation(id_and_params):
     unique_seed = int(hashlib.sha1(file_uuid.encode('utf-8')).hexdigest(), 16) % (2**30)
     np.random.seed(unique_seed)
     # run simulation 
+    try:
+        num_echoes, sim_output = run_CPN(**parameter_set)
     
-    num_echoes, sim_output = run_CPN(**parameter_set)
     # print(sim_output)
     # save outputs 
-    simulation_identifiers['uuid'] = file_uuid
-    simulation_identifiers['np.random.seed'] = unique_seed
+        simulation_identifiers['uuid'] = file_uuid
+        simulation_identifiers['np.random.seed'] = unique_seed
 
-    success = save_simulation_outputs(parameter_set['dest_folder'],
-                                          simulation_identifiers, sim_output)
-    
+        success = save_simulation_outputs(parameter_set['dest_folder'],
+                                            simulation_identifiers, sim_output)
+    except Exception:
+        success= False
     if not success:
         print('Simulation ' , file_uuid, 'could not be saved')
     return(success)
@@ -214,4 +216,4 @@ class FailedParameterLoading(ValueError):
 run_multiple_simulations(name="focal_bat_d", info="trail run",
                                 parameter_file_format="./effect_of_position_focal_bat_d/paramsets/*",
                             num_CPUs=10,
-                            dest_folder="./effect_of_position_focal_bat_d/store_results/", varying_param= "change_focal_bat_d")      
+                            dest_folder="./effect_of_position_focal_bat_d/store_results_clean/", varying_param= "change_focal_bat_d")      
