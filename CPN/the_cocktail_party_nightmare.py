@@ -1407,6 +1407,40 @@ def check_distance(number_of_d,d, point, theta, line_slope_intercept):
         return False
     
 def generate_subset_of_points_given_d(nearby_points, centremost_point, number_of_d, d, theta, threshold):
+    '''Chooses a  non central bat as the focal individual.
+        The auditory scene is calculated with respect to this
+        non central individual then. 
+
+        Parameters
+        -------
+        nearby_points : npoints x 2 np.array. XY coordinates of neighbouring points
+                        around the centremost point.
+
+        centremost_point : 1 x 2 np.array. XY coordinates of centremost point.
+
+        number_of_d :   int
+                        desired radial distance of the noncentral bat from the focal bat in terms of number of minimum spacing between bats
+        d   :   float
+                minimum interbat spacing.
+        theta   :   float
+                    0 < theta < 2pi radians.
+                    The azimuthal location of the desired noncentral
+                    bat. 0 degrees is 3 o'clock and
+                    the angles increase in a counter-clockwise
+                    direction.
+
+        threshold   :   float
+                        0 < threshold.
+                        threshold*min_spacing is the allowed error range.
+                        if any existing points lie within this error range from the desired point, they are shortlisted.
+                        new_focal_bat is randomly picked from all the shortlisted points 
+        Returns
+        --------
+        subset_of_points : 2d np.array
+                            selected points, that satisfy conditions and lie within the threshold.
+        indices : 1d np.array. 
+                indices of the selected points in `nearby_points`.
+        '''
     transform_nearby_points_st_center_is_origin= nearby_points-centremost_point
     centre_and_other_pts_transformed = np.row_stack((np.array([0,0]), transform_nearby_points_st_center_is_origin))
     # d= kwargs['min_spacing']
