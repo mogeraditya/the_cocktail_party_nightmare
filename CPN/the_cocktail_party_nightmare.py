@@ -3,6 +3,7 @@
 'cocktail party nightmare'
 
 Created on Tue Dec 12 21:55:48 2017
+Edited on Thu Jun 26 15:52:00 2025
 
 Copyright Thejasvi Beleyur, 2019
 
@@ -1363,6 +1364,26 @@ def generate_line_thresholds_given_theta_d(theta, d, threshold):
     return (slope, intercept)
 
 def check_if_given_point_between_two_lines(lines, point):
+    ''' Checks if point lies between two lines of a fixed slope.
+        the lines are distance 2*intercept away from each other (distance along y-axis)
+
+        Parameters
+        -------
+
+        point   :   1x2 np.array
+                    point being checked for the distance, threshold and quadrant criteria.
+
+        lines   :   1x2 array/tuple
+                    lines= (slope, intercept)
+                    the two lines are y=slope*x+intercept and y=slope*x-intercept.
+        Returns
+        --------
+        subset_of_points : 2d np.array
+                            selected points, that satisfy conditions and lie within the threshold.
+
+        indices : 1d np.array. 
+                indices of the selected points in `nearby_points`.
+    '''
     #lines are parallel
     slope, intercept= lines
     sign_for_upper_line= np.sign(point[1]-slope*point[0]-intercept)
@@ -1375,6 +1396,29 @@ def check_if_given_point_between_two_lines(lines, point):
         return True
     
 def check_quadrant(theta, point):
+    ''' Checks if point lies in the quadrant based on theta.
+
+        Parameters
+        -------
+        
+        point   :   1x2 np.array
+                    point being checked for the distance, threshold and quadrant criteria.
+
+        theta   :   float
+                    0 < theta < 2pi radians.
+                    The azimuthal location of the desired noncentral
+                    bat. 0 degrees is 3 o'clock and
+                    the angles increase in a counter-clockwise
+                    direction.
+
+        Returns
+        --------
+        subset_of_points : 2d np.array
+                            selected points, that satisfy conditions and lie within the threshold.
+
+        indices : 1d np.array. 
+                indices of the selected points in `nearby_points`.
+        '''
     #check if point lies in the correct quadrant
     if (point[0], point[1]) == (0,0):
         return True
@@ -1393,9 +1437,43 @@ def check_quadrant(theta, point):
         return False
 
 def dist_from_origin(point):
+    '''Compute distance from origin'''
     return np.sqrt(point[0]**2 + point[1]**2)
 
 def check_distance(number_of_d,d, point, theta, line_slope_intercept):
+    ''' Checks if points satisfy distance, threshold and quadrant criteria.
+
+        Parameters
+        -------
+        number_of_d :   int
+                        desired radial distance of the noncentral bat from the focal bat in terms of number of minimum spacing between bats.
+
+        d   :   float
+                minimum interbat spacing.
+
+        point   :   1x2 np.array
+                    point being checked for the distance, threshold and quadrant criteria.
+
+        theta   :   float
+                    0 < theta < 2pi radians.
+                    The azimuthal location of the desired noncentral
+                    bat. 0 degrees is 3 o'clock and
+                    the angles increase in a counter-clockwise
+                    direction.
+
+        threshold   :   float
+                        0 < threshold.
+                        threshold*min_spacing is the allowed error range.
+                        if any existing points lie within this error range from the desired point, they are shortlisted.
+                        new_focal_bat is randomly picked from all the shortlisted points 
+        Returns
+        --------
+        subset_of_points : 2d np.array
+                            selected points, that satisfy conditions and lie within the threshold.
+
+        indices : 1d np.array. 
+                indices of the selected points in `nearby_points`.
+        '''
     if check_if_given_point_between_two_lines(line_slope_intercept, point) and check_quadrant(theta, point):
         distance_upper_limit= d*(number_of_d+0.5); distance_lower_limit= d*(number_of_d-0.5)
         distance_from_origin= dist_from_origin(point)
@@ -1407,9 +1485,8 @@ def check_distance(number_of_d,d, point, theta, line_slope_intercept):
         return False
     
 def generate_subset_of_points_given_d(nearby_points, centremost_point, number_of_d, d, theta, threshold):
-    '''Chooses a  non central bat as the focal individual.
-        The auditory scene is calculated with respect to this
-        non central individual then. 
+    ''' Creates a subset of points that satisfy threshold and are desried disstance away.
+        Desired distance is number_of_d*d.
 
         Parameters
         -------
@@ -1457,8 +1534,12 @@ def generate_subset_of_points_given_d(nearby_points, centremost_point, number_of
 
 def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
     '''Chooses a  non central bat as the focal individual.
-        The auditory scene is calculated with respect to this
-        non central individual then. 
+        Generated a set of x,y coordinates for all bats (based on "Nbats").
+        Picks a noncentral bat based on the queried number_of_d; the auditory scene is calculated with respect to this
+        non central individual then.
+        If there exists no such point, points are regenerated. 
+        After regenerating data more than 100 times, an error is raised.
+        
 
         Parameters
         -------
@@ -1477,6 +1558,12 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
                         threshold*min_spacing is the allowed error range.
                         if any existing points lie within this error range from the desired point, they are shortlisted.
                         new_focal_bat is randomly picked from all the shortlisted points 
+
+        Keyword Arguments
+        ----------------
+            Nbats
+            min_spacing
+
         Returns
         --------
         rearranged_nearby_points : Nbats-1 x 2 np.array
