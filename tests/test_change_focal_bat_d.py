@@ -40,6 +40,7 @@ class TestingNoncentralAllocation(unittest.TestCase):
         print(computed_true_false)
         self.assertTrue((expected_true_false==computed_true_false))
         
+    #the other function just implements already tested functions and therefore doesnt require unit test
 if __name__ == '__main__':
 
     unittest.main()
