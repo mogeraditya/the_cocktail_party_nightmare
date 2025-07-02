@@ -25,8 +25,8 @@ group_heading_variation = 10
 atmospheric_absorption =  -1
 number_of_simulation_runs =  100
 # radial_distance = [0.2, 0.5, 0.75]
-azimuth_location = [np.pi/2, 3*np.pi/2] 
-radial_values=[1,2,3,4]
+azimuth_location = [0] 
+radial_values=[0]
 threshold= 0.25
 with open(wd+'/common_simulation_parameters.paramset','rb') as pklfile:
     simulation_parameters = dill.load(pklfile)

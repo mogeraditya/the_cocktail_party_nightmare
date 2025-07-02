@@ -1571,6 +1571,12 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
         focal_bat_new : 1 x 2 np.array. 
                     The focal point chosen according to the r,theta positions
         '''
+    if number_of_d==0:
+        nearby_points,centremost_point = generate_surroundpoints_w_poissondisksampling(kwargs['Nbats'],
+                                                                    kwargs['min_spacing'],
+                                                                    **kwargs)
+        return nearby_points, centremost_point
+    
     d= kwargs['min_spacing']
     subset_of_points=[]
     iterant=0
