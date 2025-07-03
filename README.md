@@ -17,49 +17,13 @@ This repository simulates the auditory detection of echoes, sound propagation an
 
 
 ### Requirements:
-The code runs on a range of Python 2.7 versions and should run on Linux and Windows systems. All simulation results generated for the paper were done on a Ubuntu 18.04.3 LTS virtual machine. The code was also tested and developed on a Windows 7 system.
-To replicate the development environment exactly - install the following versions in your conda/virtual environment.
-
-Python 2.7.15
-
-matplotlib==2.2.4
-
-setuptools==40.4.3
-
-tqdm==4.35.0
-
-pandas==0.24.2
-
-joblib==0.13.2
-
-numpy==1.14.2
-
-statsmodels==0.10.1
-
-scipy==0.19.1
-
-dill==0.3.0
+The code runs on a range of Python 3.10 versions and should run on Linux and Windows systems. All simulation results generated for the paper were done on a Ubuntu 18.04.3 LTS virtual machine. The code was also tested and developed on a Windows 7 system.
+To replicate the development environment exactly - utilize the cocktail_3_env.yml file to replicate the exact versions of packages into your environment.
 
 ### Installing the required Python environment:
 It is a good idea to always use environments for each project. Environments are unique ''boxes' that have their own installation of Python and dependent packages ([article on environments](https://protostar.space/why-you-need-python-environments-and-how-to-manage-them-with-conda)).
 
-I used an [Anaconda](https://docs.anaconda.com/anaconda/) Python installation. The conda version used was 4.7.10. Here are the steps to recreate the environment.
-```
-# create a conda environment called theCPN with python 2.7.15
-conda create --name theCPN python=2.7.15
-# activate the environment
-conda activate theCPN 
-# install the pip package
-conda install pip
-# install all of the required dependency packages to run the simulations
-pip install -r requirements.txt
-```
--- these steps worked on an Ubuntu 18.04. It should work on other operating systems too. However, I also faced an issue with the steps above on my Windows 7 with a *RuntimeError: Python version >= 3.5 required.* message when I tried to ```pip install -r requirements.txt``` . The solution was to install numpy first, then pandas, and then the rest of the packages - so:
-```
-pip install numpy==1.14.2
-pip install pandas==0.24.2
-pip install matplotlib==2.2.4 setuptools==40.4.3 tqdm==4.35.0 joblib==0.13.2 statsmodels==0.10.1 scipy 1.2.1==0.19.1 dill==0.3.0
-```
+I used an [Anaconda](https://docs.anaconda.com/anaconda/) Python installation. (add steps to recreate)
 
 
 ## Running simulations described in the paper: 4 steps to re-running it on your system
