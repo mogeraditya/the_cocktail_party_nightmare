@@ -564,7 +564,7 @@ def multiecho_check_if_echo_heard(echo_row, **kwargs):
     this_echoheard = check_if_echo_heard(echo_row,  **kwargs)
     return(this_echoheard)
     
-
+import warnings
 
 def check_if_echo_heard(echo, 
                          **kwargs):
@@ -613,7 +613,18 @@ def check_if_echo_heard(echo,
                                           kwargs['other_sounds'], **kwargs)
         cumulative_spl = ipi_soundpressure_levels(kwargs['other_sounds'], 'post_SUM',
                                                                   **kwargs)
+        
         cumulative_dbspl = dB(cumulative_spl)
+        # with warnings.catch_warnings():
+        #     warnings.simplefilter("error", RuntimeWarning)
+        #     try:
+        #         ## Trigger runtime warning as exception
+        #         cumulative_dbspl = dB(cumulative_spl)
+        #     except RuntimeWarning as e:
+        #         cumulative_dbspl = dB(cumulative_spl)
+        #         print("Caught warning as exception")
+        #         print(echo)
+
         echo_heard = check_if_cum_SPL_above_masking_threshold(echo, 
                                                               cumulative_dbspl,
                                                               **kwargs)
@@ -1037,6 +1048,19 @@ extract_numechoesheard = lambda X : X[0]
 extract_echoids = lambda X : X[1]
 
 dB  = lambda X : 20*np.log10(abs(X))
+import warnings
+
+# def dB(X):
+#     with warnings.catch_warnings():
+#         warnings.simplefilter("error", RuntimeWarning)
+#         try:
+#             ## Trigger runtime warning as exception
+#             result = 1 / 0
+#         except RuntimeWarning as e:
+#             print("Caught warning as exception")
+#             print(X)
+
+    
 
 def assemble_echoids(echoids_per_calldensity, call_densities, num_echoes,
                            num_trials):
@@ -1440,7 +1464,7 @@ def dist_from_origin(point):
     '''Compute distance from origin'''
     return np.sqrt(point[0]**2 + point[1]**2)
 
-def check_distance(number_of_d,d, point, theta, line_slope_intercept):
+def check_distance(number_of_d,d, point, theta, line_slope_intercept, threshold):
     ''' Checks if points satisfy distance, threshold and quadrant criteria.
 
         Parameters
@@ -1475,7 +1499,7 @@ def check_distance(number_of_d,d, point, theta, line_slope_intercept):
                 indices of the selected points in `nearby_points`.
         '''
     if check_if_given_point_between_two_lines(line_slope_intercept, point) and check_quadrant(theta, point):
-        distance_upper_limit= d*(number_of_d+0.5); distance_lower_limit= d*(number_of_d-0.5)
+        distance_upper_limit= d*(number_of_d+threshold); distance_lower_limit= d*(number_of_d-threshold)
         distance_from_origin= dist_from_origin(point)
         if distance_from_origin>distance_lower_limit and distance_from_origin<=distance_upper_limit:
             return True
@@ -1526,11 +1550,20 @@ def generate_subset_of_points_given_d(nearby_points, centremost_point, number_of
     indices= []
     iterant=0
     for point in centre_and_other_pts_transformed[1:]:
-        if check_distance(number_of_d, d, point, theta, line_slope_intercept):
+        if check_distance(number_of_d, d, point, theta, line_slope_intercept, threshold):
             subset_of_points.append(point)
             indices.append(iterant)
         iterant+=1
     return np.array(subset_of_points), np.array(indices)
+
+class No_situation_for_given_nd(Exception):
+    """Still an exception raised when uncommon things happen"""
+    def __init__(self, message, payload=None):
+        self.message = message
+        self.payload = payload # you could add more args
+    def __str__(self):
+        return str(self.message)
+
 
 def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
     '''Chooses a  non central bat as the focal individual.
@@ -1577,19 +1610,20 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
                                                                     **kwargs)
         return nearby_points, centremost_point
     
+    group_size= kwargs["Nbats"]
     d= kwargs['min_spacing']
     subset_of_points=[]
     iterant=0
-    while len(subset_of_points)==0 and iterant<100:
+    while len(subset_of_points)==0 and iterant<1000:
         nearby_points,centremost_point = generate_surroundpoints_w_poissondisksampling(kwargs['Nbats'],
                                                                     kwargs['min_spacing'],
                                                                     **kwargs)
         subset_of_points, indices_of_points= generate_subset_of_points_given_d(nearby_points, centremost_point, number_of_d, d, theta, threshold)
         iterant+=1
     
-    if iterant==100:
-        raise Exception("Doesn't_Work_For_Given_N*d")
-
+    if iterant==1000:
+        raise No_situation_for_given_nd(f"Failure to generate scenario in which there exists no point that is {number_of_d} number of step(s) away from the centermost bat for groupsize of  {group_size}")
+    
     random_index= np.random.randint(0, len(subset_of_points))
     focal_bat_new= subset_of_points[random_index]+ centremost_point 
     focal_bat_rearranged__index= indices_of_points[random_index]

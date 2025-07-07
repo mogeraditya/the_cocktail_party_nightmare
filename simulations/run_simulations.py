@@ -19,7 +19,7 @@ wd="../"
 sys.path.append(wd+"/CPN/")
 import numpy as np 
 
-from the_cocktail_party_nightmare import run_CPN
+from the_cocktail_party_nightmare import run_CPN, No_situation_for_given_nd
 
 def make_dir(directory):
     if not os.path.exists(directory):
@@ -122,8 +122,9 @@ def run_and_save_one_simulation(id_and_params):
 
         success = save_simulation_outputs(parameter_set['dest_folder'],
                                             simulation_identifiers, sim_output)
-    except Exception:
-        success= False
+    except No_situation_for_given_nd as error:
+        print(str(error)) # Very bad mistake
+        success=False
     if not success:
         print('Simulation ' , file_uuid, 'could not be saved')
     return(success)
@@ -216,4 +217,4 @@ class FailedParameterLoading(ValueError):
 run_multiple_simulations(name="focal_bat_d", info="trail run",
                                 parameter_file_format="./effect_of_position_focal_bat_d/paramsets/*",
                             num_CPUs=10,
-                            dest_folder="./effect_of_position_focal_bat_d/store_results_clean/", varying_param= "change_focal_bat_d")      
+                            dest_folder="./effect_of_position_focal_bat_d/store_results_after_changes_to_threshold_1/", varying_param= "change_focal_bat_d")      

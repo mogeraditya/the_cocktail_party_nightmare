@@ -1,4 +1,5 @@
 {
     "python.terminal.executeInFileDir": true,
-    "terminal.integrated.cwd": "/home/adityamoger/Documents/GitHub/cocktail_clone/"
+    "terminal.integrated.cwd": "/home/adityamoger/Documents/GitHub/cocktail_clone/",
+    "explorer.excludeGitIgnore": true
 }

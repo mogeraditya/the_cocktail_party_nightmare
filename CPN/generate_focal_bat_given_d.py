@@ -2,8 +2,9 @@ import os
 import glob
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from the_cocktail_party_nightmare import generate_surroundpoints_w_poissondisksampling
-
+    
 #use the poisson disk sample code
 #i need to sent the threshold thingy and also implement the inter bat spacing thingy
 
@@ -55,7 +56,7 @@ def dist_from_origin(point):
 
 def check_distance(number_of_d,d, point, theta, line_slope_intercept):
     if check_if_given_point_between_two_lines(line_slope_intercept, point) and check_quadrant(theta, point):
-        distance_upper_limit= d*(number_of_d+0.5); distance_lower_limit= d*(number_of_d-0.5)
+        distance_upper_limit= d*(number_of_d+0.05); distance_lower_limit= d*(number_of_d-0.05)
         distance_from_origin= dist_from_origin(point)
         if distance_from_origin>distance_lower_limit and distance_from_origin<=distance_upper_limit:
             return True
@@ -84,7 +85,7 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
     d= kwargs['min_spacing']
     subset_of_points=[]
     iterant=0
-    while len(subset_of_points)==0 and iterant<200:
+    while len(subset_of_points)==0 and iterant<1000:
         nearby_points,centremost_point = generate_surroundpoints_w_poissondisksampling(kwargs['Nbats'],
                                                                     kwargs['min_spacing'],
                                                                     **kwargs)
@@ -102,7 +103,6 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
     
     return new_nearby_points, focal_bat_new, nearby_points, centremost_point
 
-            
 
 # line_slope_intercept= (1, 0.4); point= [1,0.5]; angle=np.pi/3
 # if check_if_given_point_between_two_lines(line_slope_intercept, point) and check_quadrant(angle, point):
@@ -110,7 +110,7 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
 # else:
 #     print("cunttty")
 
-group_size = 40
+group_size = 20
 interpulse_duration =  0.1
 call_duration =  0.0025
 shadowing = True
@@ -133,19 +133,21 @@ simulation_parameters['source_level'] = {'dBSPL' : source_level,
 simulation_parameters['min_spacing'] = spacing
 simulation_parameters['heading_variation'] = group_heading_variation
 simulation_parameters['atmospheric_attenuation'] = atmospheric_absorption
+plt.figure(figsize=(10,25))
+i=0
+while i<10:
+    try:
+        new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(1, 3*np.pi/2, 0.25, **simulation_parameters)
+    except Exception:
+        print("aiyo amma tai")
 
-try:
-    new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(5, 3*np.pi/2, 0.25, **simulation_parameters)
-except Exception:
-    print("aiyo amma tai")
+    plt.subplot(5,2,i+1)
+    plt.scatter(new_nearby[:,0], new_nearby[:,1])
+    plt.scatter(new_focal[0], new_focal[1], color="black", alpha= 0.2, label="new focal bats")
+    plt.subplot(5,2,i+2)
+    plt.scatter(nearby[:,0], nearby[:,1])
+    plt.scatter(focal[0], focal[1], color="red", alpha= 0.2, label="centermost bats")
+    i+=2
 
-import matplotlib.pyplot as plt
-
-plt.subplot(1,2,1)
-plt.scatter(new_nearby[:,0], new_nearby[:,1])
-plt.scatter(new_focal[0], new_focal[1])
-plt.subplot(1,2,2)
-plt.scatter(nearby[:,0], nearby[:,1])
-plt.scatter(focal[0], focal[1])
 plt.show()
 # print(new_nearby, new_focal)

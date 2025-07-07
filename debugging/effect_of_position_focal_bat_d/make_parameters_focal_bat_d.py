@@ -15,7 +15,7 @@ wd="../../"
 
 join_into_string = lambda Y: '*'.join(map(lambda X:str(X), Y))
 
-group_sizes = [100, 75, 50, 40, 30, 20, 10, 5]
+group_sizes = [100,75,50,40,30,20,10,5]
 interpulse_duration =  0.1
 call_duration =  0.0025
 shadowing = True
@@ -23,11 +23,11 @@ source_level =  100
 spacing = 0.5
 group_heading_variation = 10
 atmospheric_absorption =  -1
-number_of_simulation_runs =  100
+number_of_simulation_runs = 50
 # radial_distance = [0.2, 0.5, 0.75]
-azimuth_location = [np.pi/2, 3*np.pi/2] 
-radial_values=[8,7,6,5]
-threshold= 0.1
+azimuth_location = [1] 
+radial_values=[np.pi/2]
+threshold= 0.25
 with open(wd+'/common_simulation_parameters.paramset','rb') as pklfile:
     simulation_parameters = dill.load(pklfile)
     

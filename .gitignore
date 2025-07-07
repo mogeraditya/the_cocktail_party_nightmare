@@ -91,20 +91,20 @@ env.bak/
 venv.bak/
 
 # Spyder project settings
-.spyderproject
-.spyproject
+*.spyderproject
+*.spyproject
 
 # Rope project settings
-.ropeproject
+*.ropeproject
 
 # mkdocs documentation
 /site
 
 # pickle files
-.pkl
+*.pkl
 # mypy
-.mypy_cache/
+*.mypy_cache/
 
 # theCPN files :
-.simresults
-.paramset
+*.simresults
+*.paramset
