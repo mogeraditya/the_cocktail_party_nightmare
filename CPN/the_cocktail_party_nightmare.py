@@ -615,15 +615,16 @@ def check_if_echo_heard(echo,
                                                                   **kwargs)
         
         cumulative_dbspl = dB(cumulative_spl)
-        # with warnings.catch_warnings():
-        #     warnings.simplefilter("error", RuntimeWarning)
-        #     try:
-        #         ## Trigger runtime warning as exception
-        #         cumulative_dbspl = dB(cumulative_spl)
-        #     except RuntimeWarning as e:
-        #         cumulative_dbspl = dB(cumulative_spl)
-        #         print("Caught warning as exception")
-        #         print(echo)
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", RuntimeWarning)
+            try:
+                ## Trigger runtime warning as exception
+                cumulative_dbspl = dB(cumulative_spl)
+            except RuntimeWarning as e:
+                cumulative_dbspl = dB(cumulative_spl)
+                print("Caught warning as exception")
+                print(echo)
+                print(cumulative_spl)
 
         echo_heard = check_if_cum_SPL_above_masking_threshold(echo, 
                                                               cumulative_dbspl,
