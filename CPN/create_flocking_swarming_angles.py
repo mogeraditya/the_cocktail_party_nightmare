@@ -2,6 +2,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
+
 def generate_heading_vectors_concentric_circles(set_of_all_points, resolution):
     '''Goal is to create heading directions in a flock like pattern. 
         * Take the center point and make resolution many equal angled sections of 2*pi. 
@@ -80,3 +81,5 @@ def generate_heading_vectors_random_all_angles(**kwargs):
 # print(np.arctan(-1))
 # print(np.pi/4)
 # print(np.ceil((np.pi/6)/(np.pi/4)))
+# sim_data={}; sim_data["noncentral_bat"]=False
+# CPN.generate_surroundpoints_w_poissondisksampling(npoints=5, nbr_distance=0.5, **sim_data)

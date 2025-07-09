@@ -621,7 +621,7 @@ def check_if_echo_heard(echo,
                 ## Trigger runtime warning as exception
                 cumulative_dbspl = dB(cumulative_spl)
             except RuntimeWarning as e:
-                cumulative_dbspl = dB(cumulative_spl)
+                
                 print("Caught warning as exception")
                 print(echo)
                 print(cumulative_spl)

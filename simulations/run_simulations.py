@@ -217,4 +217,4 @@ class FailedParameterLoading(ValueError):
 run_multiple_simulations(name="focal_bat_d", info="trail run",
                                 parameter_file_format="./effect_of_position_focal_bat_d/paramsets/*",
                             num_CPUs=20,
-                            dest_folder="./effect_of_position_focal_bat_d/store_results/", varying_param= "change_focal_bat_d")      
+                            dest_folder="../debugging/", varying_param= "change_focal_bat_d")      
