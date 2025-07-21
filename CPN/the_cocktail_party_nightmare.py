@@ -38,12 +38,13 @@ sys.path.append(wd+'/acoustics/')
 import pdb
 import numpy as np
 import pandas as pd
+import math
 import scipy.misc as misc
 import scipy.spatial as spl
 from bridson import poisson_disc_samples
 from detailed_sound_propagation import soundprop_w_acoustic_shadowing, calc_RL
 import create_flocking_swarming_angles as flsw
-
+np.math= math
 
 def assign_random_arrival_times(sound_df, **kwargs):
     '''Assigns a random arrival time to the sounds in the input sound_df. 
@@ -615,16 +616,16 @@ def check_if_echo_heard(echo,
                                                                   **kwargs)
         
         cumulative_dbspl = dB(cumulative_spl)
-        with warnings.catch_warnings():
-            warnings.simplefilter("error", RuntimeWarning)
-            try:
-                ## Trigger runtime warning as exception
-                cumulative_dbspl = dB(cumulative_spl)
-            except RuntimeWarning as e:
+        # with warnings.catch_warnings():
+        #     warnings.simplefilter("error", RuntimeWarning)
+        #     try:
+        #         ## Trigger runtime warning as exception
+        #         cumulative_dbspl = dB(cumulative_spl)
+        #     except RuntimeWarning as e:
                 
-                print("Caught warning as exception")
-                print(echo)
-                print(cumulative_spl)
+        #         print("Caught warning as exception")
+        #         print(echo)
+        #         print(cumulative_spl)
 
         echo_heard = check_if_cum_SPL_above_masking_threshold(echo, 
                                                               cumulative_dbspl,

@@ -5,7 +5,7 @@ from create_flocking_swarming_angles import generate_heading_vectors_concentric_
 import math
 
 sim_data={}; sim_data["noncentral_bat"]=False
-nearby, focal= CPN.generate_surroundpoints_w_poissondisksampling(npoints=100, nbr_distance=0.5, **sim_data)
+nearby, focal= CPN.generate_surroundpoints_w_poissondisksampling(npoints=75, nbr_distance=0.5, **sim_data)
 set_of_all_points= np.row_stack((focal, nearby))
 vector_angles= generate_heading_vectors_concentric_circles(set_of_all_points=set_of_all_points, resolution=32)
 

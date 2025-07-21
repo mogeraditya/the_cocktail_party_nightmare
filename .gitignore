@@ -106,5 +106,6 @@ venv.bak/
 *.mypy_cache/
 
 # theCPN files :
-.simresults
-.paramset
+*.simresults
+*.paramset
+*.h5

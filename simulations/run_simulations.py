@@ -129,6 +129,7 @@ def run_and_save_one_simulation(id_and_params):
         print('Simulation ' , file_uuid, 'could not be saved')
     return(success)
 
+
 def run_multiple_simulations(name, info,
                                  parameter_file_format,
                              num_CPUs,
@@ -178,7 +179,13 @@ def run_multiple_simulations(name, info,
         simulation_identifiers['parameter_set'] = each_paramset
         make_dir(dest_folder+folder_id)
         each_paramset['dest_folder'] = dest_folder + folder_id
-        for _ in range(each_paramset['Nruns']):
+        list_of_files_inside_dest_folder= glob.glob(dest_folder+folder_id+"/*.simresults")
+        if len(list_of_files_inside_dest_folder)>=each_paramset["Nruns"]:
+            print("skipping for the folliwng paramset "+dest_folder+folder_id)
+            continue
+        else: 
+            number_of_iterations= each_paramset["Nruns"]-len(list_of_files_inside_dest_folder)
+        for _ in range(number_of_iterations):
             id_and_paramsets.append([simulation_identifiers, each_paramset])
         print(dest_folder+folder_id)
     
@@ -214,7 +221,13 @@ class FailedParameterLoading(ValueError):
 #                             num_CPUs=10,
 #                             dest_folder="./effect_of_position_focal_bat_theta/store_results/", varying_param="noncentral_bat")       
 
-run_multiple_simulations(name="focal_bat_d", info="trail run",
-                                parameter_file_format="./effect_of_position_focal_bat_d/paramsets/*",
-                            num_CPUs=20,
-                            dest_folder="../debugging/", varying_param= "change_focal_bat_d")      
+# run_multiple_simulations(name="focal_bat_d", info="trail run",
+#                                 parameter_file_format="./effect_of_position_focal_bat_d/paramsets/*",
+#                             num_CPUs=20,
+#                             dest_folder="../debugging/", varying_param= "change_focal_bat_d")    
+group_heading_variation = [0, 10, 30, 50, "swarming", "flocking"]
+for heading_var in group_heading_variation:
+    run_multiple_simulations(name="heading_plus_radial_"+str(heading_var), info="multivaraible run",
+                                    parameter_file_format="./effect_of_heading_plus_radial/paramsets/"+str(heading_var)+"/*",
+                                num_CPUs=10,
+                                dest_folder="./effect_of_heading_plus_radial/store_results/"+str(heading_var)+"/", varying_param= "focal_plus_heading_var")   
