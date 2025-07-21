@@ -24,9 +24,11 @@ def compute_u_v_for_plotting(points, angles):
     return np.array(u_v_s)
 
 u_v_s= compute_u_v_for_plotting(set_of_all_points, vector_angles)
+
 plt.scatter(focal[0], focal[1])
 for u_v in u_v_s:
     plt.quiver(*u_v)
+
 plt.show()
 
 i=0

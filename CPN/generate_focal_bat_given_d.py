@@ -117,7 +117,7 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
 # else:
 #     print("cunttty")
 
-group_size = 50
+group_size = 75
 radial_dist= 4
 interpulse_duration =  0.1
 call_duration =  0.0025
