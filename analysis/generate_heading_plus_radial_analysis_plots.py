@@ -18,7 +18,7 @@ import os
 from analysis_misc_functions import *
 import IPython
 
-group_heading_variation = [0, 10, 30, 50, "swarming", "flocking"]
+group_heading_variation = [0, 10, 30, 50, "swarming", "milling"]
 
 for heading_var in group_heading_variation:
     dir_to_store_plots= "./plots_heading_radial/"+str(heading_var)

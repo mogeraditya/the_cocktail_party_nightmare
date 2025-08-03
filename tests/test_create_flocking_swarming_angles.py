@@ -2,13 +2,13 @@ import os
 import glob
 import sys
 sys.path.append("../CPN/")
-from create_flocking_swarming_angles import generate_heading_vectors_concentric_circles, generate_heading_vectors_random_all_angles
+from create_milling_swarming_angles import generate_heading_vectors_concentric_circles, generate_heading_vectors_random_all_angles
 
 import unittest
 import numpy as np
 # from scipy.stats import chisqaured
 
-class Testing_creating_flocking_swarming_angles(unittest.TestCase):
+class Testing_creating_milling_swarming_angles(unittest.TestCase):
     def setUp(self):
         
         self.points_x= [1,-1,1,-1,0]

@@ -17,7 +17,7 @@ call_duration =  0.0025
 shadowing = True
 source_level =  100
 spacing = 0.5
-group_heading_variation = [0, 10, 30, 50, "swarming", "flocking"]
+group_heading_variation = [0, 10, 30, 50, "swarming", "milling"]
 atmospheric_absorption =  -1
 number_of_simulation_runs = 50
 

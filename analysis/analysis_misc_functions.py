@@ -289,3 +289,32 @@ def passing_true_false_indices_through_lists(list, true_false_list):
 
         iterant+=1
     return output_array
+
+def calculate_geqNneighbour(num_detected_neighbours, N):
+    '''Calculates the proportion of an array-like
+    object that is >= N.
+    
+    '''
+    geq_N = np.float64(np.sum(num_detected_neighbours>=N))
+    if np.isnan(np.min(num_detected_neighbours)):
+        return np.nan
+    proportion_geq_N = geq_N/len(num_detected_neighbours)
+    return(proportion_geq_N)
+
+def calculate_geqNneighbour_distribution(num_detected_neighbours, N, sub_sample_size, sub_samples_iterations, seed):
+    '''Calculates the proportion of an array-like
+    object that is >= N.
+    
+    '''
+    if seed!=False:
+        np.random.seed(seed)
+    array_containing_subsampled_probabilities=[]
+
+    for it in range(sub_samples_iterations):
+        sub_sampled_num_detected_neighbours= np.random.choice(num_detected_neighbours, size= sub_sample_size, replace=False)    
+        geq_N = np.float64(np.sum(sub_sampled_num_detected_neighbours>=N))
+        if np.isnan(np.min(sub_sampled_num_detected_neighbours)):
+            return np.nan
+        proportion_geq_N = geq_N/len(sub_sampled_num_detected_neighbours)
+        array_containing_subsampled_probabilities.append(proportion_geq_N)
+    return np.array(array_containing_subsampled_probabilities)

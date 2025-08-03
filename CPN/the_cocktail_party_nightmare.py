@@ -43,7 +43,7 @@ import scipy.misc as misc
 import scipy.spatial as spl
 from bridson import poisson_disc_samples
 from detailed_sound_propagation import soundprop_w_acoustic_shadowing, calc_RL
-import create_flocking_swarming_angles as flsw
+import create_milling_swarming_angles as flsw
 np.math= math
 
 def assign_random_arrival_times(sound_df, **kwargs):
@@ -2781,7 +2781,7 @@ def place_bats_inspace(**kwargs):
 
         
     # print(type(kwargs["heading_variation"]))
-    if kwargs["heading_variation"]=="flocking":
+    if kwargs["heading_variation"]=="milling":
         stacked_array= np.row_stack((focal, nearby))
         headings= flsw.generate_heading_vectors_concentric_circles(stacked_array, 32)
         # print(kwargs["heading_variation"])
