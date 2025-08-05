@@ -4,7 +4,7 @@ For implementation refer to [[Effect of radial distance]] and [[Effect of headin
 
 ## Results
 - effect on number of neighbours detected.
-	- ![[Pasted image 20250805192343.png]]
+	- ![Pasted image 20250805192343.png](Pasted image 20250805192343.png "title")
 	- ![[Pasted image 20250805192351.png]]
 	- ![[Pasted image 20250805192400.png]]
 	- ![[Pasted image 20250805192407.png]]
