@@ -226,18 +226,18 @@ class FailedParameterLoading(ValueError):
 #                             num_CPUs=20,
 #                             dest_folder="../debugging/", varying_param= "change_focal_bat_d") 
 #    
-# group_heading_variation = [0, 10, 30, 50, "swarming", "milling"]
-# for heading_var in group_heading_variation:
-#     run_multiple_simulations(name="heading_plus_radial_"+str(heading_var), info="multivaraible run",
-#                                     parameter_file_format="./effect_of_heading_plus_radial/paramsets/"+str(heading_var)+"/*",
-#                                 num_CPUs=10,
-#                                 dest_folder="./effect_of_heading_plus_radial/store_results/"+str(heading_var)+"/", varying_param= "focal_plus_heading_var")   
-    
-
-group_heading_variation = [0, 10, 30, 50, "swarming", "milling"]
+group_heading_variation = [10, "swarming", "milling"]
 for heading_var in group_heading_variation:
-    run_multiple_simulations(name="heading_plus_radial_no_unmasking_"+str(heading_var), info="multivaraible run, no unmasking",
+    run_multiple_simulations(name="heading_plus_radial_"+str(heading_var), info="multivaraible run",
                                     parameter_file_format="./effect_of_heading_plus_radial_no_unmasking/paramsets/"+str(heading_var)+"/*",
                                 num_CPUs=10,
-                                dest_folder="./effect_of_heading_plus_radial_no_unmasking/store_results/"+str(heading_var)+"/", varying_param= "focal_plus_heading_var")   
+                                dest_folder="./effect_of_heading_plus_radial_no_unmasking/store_results_poster/"+str(heading_var)+"/", varying_param= "focal_plus_heading_var")   
+    
+
+# group_heading_variation = [0, 10, 30, 50, "swarming", "milling"]
+# for heading_var in group_heading_variation:
+#     run_multiple_simulations(name="heading_plus_radial_no_unmasking_"+str(heading_var), info="multivaraible run, no unmasking",
+#                                     parameter_file_format="./effect_of_heading_plus_radial_no_unmasking/paramsets/"+str(heading_var)+"/*",
+#                                 num_CPUs=10,
+#                                 dest_folder="./effect_of_heading_plus_radial_no_unmasking/store_results/"+str(heading_var)+"/", varying_param= "focal_plus_heading_var")   
 

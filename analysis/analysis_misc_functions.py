@@ -284,7 +284,7 @@ def passing_true_false_indices_through_lists(list, true_false_list):
     output_array= []; iterant=0
     for entry in true_false_list:
         if entry:
-            print(iterant)
+            # print(iterant)
             output_array.append(list[iterant])
 
         iterant+=1

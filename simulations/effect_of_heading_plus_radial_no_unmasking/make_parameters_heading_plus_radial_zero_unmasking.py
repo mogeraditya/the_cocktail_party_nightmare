@@ -11,23 +11,23 @@ def make_dir(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-wd="../../"
-sys.path.append("../../data/")
+wd="./"
+sys.path.append("./data/")
 
 join_into_string = lambda Y: '*'.join(map(lambda X:str(X), Y))
 
-group_sizes = [75,50,30,20,10,5]
+group_sizes = [75, 30, 10]
 interpulse_duration =  0.1
 call_duration =  0.0025
 shadowing = True
 source_level =  100
 spacing = 0.5
-group_heading_variation = [0, 10, 30, 50, "swarming", "milling"]
+group_heading_variation = [10, "swarming", "milling"]
 atmospheric_absorption =  -1
 number_of_simulation_runs =  100
 # radial_distance = [0.2, 0.5, 0.75]
-azimuth_location = [np.pi/2, 3*np.pi/2] 
-radial_values=[1,2,3,4,5,6,7]
+azimuth_location = [0] #[np.pi/2, 3*np.pi/2] 
+radial_values= [0] #[3,6]
 threshold= 0.1
 with open(wd+'/common_simulation_parameters.paramset','rb') as pklfile:
     simulation_parameters = dill.load(pklfile)
@@ -44,7 +44,7 @@ for group_size in group_sizes:
                 
                 i += 1
                 # focal_bat_position = (0,0)
-                spatial_unmasking_file = '../../data/spatial_release_fn_no_unmasking.csv'
+                spatial_unmasking_file = './data/spatial_release_fn_no_unmasking.csv'
                 spatial_unmasking_fn = pd.read_csv(spatial_unmasking_file)
                 simulation_parameters['spatial_release_fn'] = np.array(spatial_unmasking_fn)[:,1:]
                 

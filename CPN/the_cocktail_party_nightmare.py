@@ -32,7 +32,6 @@ repository is written by Johannes Dollinger and licensed under an MIT License.
 import os
 import sys 
 wd="../"
-
 sys.path.append(wd+'/bridson/')
 sys.path.append(wd+'/acoustics/')
 import pdb

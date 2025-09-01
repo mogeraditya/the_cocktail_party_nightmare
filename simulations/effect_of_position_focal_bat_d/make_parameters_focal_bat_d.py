@@ -15,7 +15,7 @@ wd="../../"
 
 join_into_string = lambda Y: '*'.join(map(lambda X:str(X), Y))
 
-group_sizes = [75,50,30,20,10,5]
+group_sizes = [10]
 interpulse_duration =  0.1
 call_duration =  0.0025
 shadowing = True
@@ -25,10 +25,10 @@ group_heading_variation = 10
 atmospheric_absorption =  -1
 number_of_simulation_runs =  100
 # radial_distance = [0.2, 0.5, 0.75]
-azimuth_location = [0] 
-radial_values=[0]
+azimuth_location = [np.pi/2, 3*np.pi/2] 
+radial_values=[2,1]
 threshold= 0.1
-with open(wd+'/common_simulation_parameters.paramset','rb') as pklfile:
+with open('./data/common_simulation_parameters.paramset','rb') as pklfile:
     simulation_parameters = dill.load(pklfile)
     
 simulation_parameters['echoes_beyond_ipi'] = True
@@ -64,6 +64,6 @@ for group_size in group_sizes:
             variables_as_string = join_into_string(all_params)
 
             param_filename = 'simulation_parameters_' + variables_as_string+'_.paramset'
-            make_dir("./paramsets/")
-            with open("./paramsets/"+param_filename,'wb') as pklfile:
+            make_dir("./simulations/effect_of_position_focal_bat_d/paramsets/")
+            with open("./simulations/effect_of_position_focal_bat_d/paramsets/"+param_filename,'wb') as pklfile:
                 dill.dump(simulation_parameters, pklfile)

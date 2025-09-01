@@ -117,100 +117,100 @@ def generate_new_focal_bat_given_angle(number_of_d, theta, threshold, **kwargs):
 # else:
 #     print("cunttty")
 
-group_size = 75
-radial_dist= 4
-interpulse_duration =  0.1
-call_duration =  0.0025
-shadowing = True
-source_level =  100
-spacing = 0.5
-group_heading_variation = 10
-atmospheric_absorption =  -1
-number_of_simulation_runs =  100
+# group_size = 75
+# radial_dist= 4
+# interpulse_duration =  0.1
+# call_duration =  0.0025
+# shadowing = True
+# source_level =  100
+# spacing = 0.5
+# group_heading_variation = 10
+# atmospheric_absorption =  -1
+# number_of_simulation_runs =  100
 
-simulation_parameters= {}
-simulation_parameters['Nbats']  = group_size
-simulation_parameters['Nruns']  = number_of_simulation_runs
-description = str(simulation_parameters['Nruns']) + 'runs across'+str(group_size)
-simulation_parameters['detailed description'] = description
-simulation_parameters['interpulse_interval'] = interpulse_duration
-simulation_parameters['echocall_duration'] = call_duration
-simulation_parameters['implement_shadowing'] = shadowing
-simulation_parameters['source_level'] = {'dBSPL' : source_level, 
-                                                'ref_distance':1.0}
-simulation_parameters['min_spacing'] = spacing
-simulation_parameters['heading_variation'] = group_heading_variation
-simulation_parameters['atmospheric_attenuation'] = atmospheric_absorption
-# plt.figure(figsize=(10,25))
-# i=0
-# while i<10:
-#     try:
-#         new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(1, 3*np.pi/2, 0.25, **simulation_parameters)
-#     except Exception:
-#         print("aiyo amma tai")
+# simulation_parameters= {}
+# simulation_parameters['Nbats']  = group_size
+# simulation_parameters['Nruns']  = number_of_simulation_runs
+# description = str(simulation_parameters['Nruns']) + 'runs across'+str(group_size)
+# simulation_parameters['detailed description'] = description
+# simulation_parameters['interpulse_interval'] = interpulse_duration
+# simulation_parameters['echocall_duration'] = call_duration
+# simulation_parameters['implement_shadowing'] = shadowing
+# simulation_parameters['source_level'] = {'dBSPL' : source_level, 
+#                                                 'ref_distance':1.0}
+# simulation_parameters['min_spacing'] = spacing
+# simulation_parameters['heading_variation'] = group_heading_variation
+# simulation_parameters['atmospheric_attenuation'] = atmospheric_absorption
+# # plt.figure(figsize=(10,25))
+# # i=0
+# # while i<10:
+# #     try:
+# #         new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(1, 3*np.pi/2, 0.25, **simulation_parameters)
+# #     except Exception:
+# #         print("aiyo amma tai")
 
-#     plt.subplot(5,2,i+1)
-#     plt.scatter(new_nearby[:,0], new_nearby[:,1])
-#     plt.scatter(new_focal[0], new_focal[1], color="black", alpha= 0.2, label="new focal bats")
-#     plt.subplot(5,2,i+2)
-#     plt.scatter(nearby[:,0], nearby[:,1])
-#     plt.scatter(focal[0], focal[1], color="red", alpha= 0.2, label="centermost bats")
-#     i+=2
+# #     plt.subplot(5,2,i+1)
+# #     plt.scatter(new_nearby[:,0], new_nearby[:,1])
+# #     plt.scatter(new_focal[0], new_focal[1], color="black", alpha= 0.2, label="new focal bats")
+# #     plt.subplot(5,2,i+2)
+# #     plt.scatter(nearby[:,0], nearby[:,1])
+# #     plt.scatter(focal[0], focal[1], color="red", alpha= 0.2, label="centermost bats")
+# #     i+=2
 
-# plt.show()
+# # plt.show()
 
+# # i=0
+# # while i<10:
+# #     new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(2, 3*np.pi/2, 0.1, **simulation_parameters)
+# #     x= [focal[0], new_focal[0]]
+# #     y= [focal[1], new_focal[1]]
+# #     plt.plot(x,y)
+# #     plt.scatter(focal[0], focal[1])
+# #     plt.scatter(new_nearby[:,0], new_nearby[:,1], alpha=0.2)
+# #     i+=1
+# # plt.show()
+# # print(new_nearby, new_focal)
+# import heapq
+# import scipy.spatial as spl
+# #find nearest neighbours
+# def find_n_nearest_points(point, nearby, n):
+#     centre_and_other_pts = np.row_stack((point, nearby))
+#     distances_from_centre = spl.distance_matrix(centre_and_other_pts,
+#                                                 centre_and_other_pts)[1:,0]
+#     smallest= heapq.nsmallest(n, distances_from_centre)
+#     print(smallest)
+#     index= [np.where(distances_from_centre==i)[0] for i in smallest]
+#     points= [nearby[i][0] for i in index]
+#     print(points)
+#     return np.array(points)
+
+# # new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(radial_dist, 3*np.pi/2, 0.1, **simulation_parameters)
+# # nearest_5= find_n_nearest_points(focal, nearby, 3)
+# # plt.scatter(nearest_5[:,0], nearest_5[:,1])
+# # plt.scatter(focal[0], focal[1])
+# # plt.scatter(nearby[:,0], nearby[:,1], alpha=0.2)
+# # plt.show()
+# # nearest_5= find_n_nearest_points(new_focal, new_nearby,3)
+# # plt.scatter(nearest_5[:,0], nearest_5[:,1])
+# # plt.scatter(new_focal[0], new_focal[1])
+# # plt.scatter(new_nearby[:,0], new_nearby[:,1], alpha=0.2)
+# # plt.show()
+
+# # i need to look at if all the near neighbours lie within a give angle band lowkey. 
+# #just draw everything once?
 # i=0
 # while i<10:
 #     new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(2, 3*np.pi/2, 0.1, **simulation_parameters)
+#     # nearest_5= find_n_nearest_points(focal, nearby, 3)
+#     nearest_5_new= find_n_nearest_points(new_focal, new_nearby,3)
+#     c=np.random.rand(3,)
 #     x= [focal[0], new_focal[0]]
 #     y= [focal[1], new_focal[1]]
-#     plt.plot(x,y)
+#     for point in nearest_5_new:
+#         x= [point[0], new_focal[0]]
+#         y= [point[1], new_focal[1]]
+#         plt.plot(x,y, c=c)
 #     plt.scatter(focal[0], focal[1])
 #     plt.scatter(new_nearby[:,0], new_nearby[:,1], alpha=0.2)
 #     i+=1
 # plt.show()
-# print(new_nearby, new_focal)
-import heapq
-import scipy.spatial as spl
-#find nearest neighbours
-def find_n_nearest_points(point, nearby, n):
-    centre_and_other_pts = np.row_stack((point, nearby))
-    distances_from_centre = spl.distance_matrix(centre_and_other_pts,
-                                                centre_and_other_pts)[1:,0]
-    smallest= heapq.nsmallest(n, distances_from_centre)
-    print(smallest)
-    index= [np.where(distances_from_centre==i)[0] for i in smallest]
-    points= [nearby[i][0] for i in index]
-    print(points)
-    return np.array(points)
-
-# new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(radial_dist, 3*np.pi/2, 0.1, **simulation_parameters)
-# nearest_5= find_n_nearest_points(focal, nearby, 3)
-# plt.scatter(nearest_5[:,0], nearest_5[:,1])
-# plt.scatter(focal[0], focal[1])
-# plt.scatter(nearby[:,0], nearby[:,1], alpha=0.2)
-# plt.show()
-# nearest_5= find_n_nearest_points(new_focal, new_nearby,3)
-# plt.scatter(nearest_5[:,0], nearest_5[:,1])
-# plt.scatter(new_focal[0], new_focal[1])
-# plt.scatter(new_nearby[:,0], new_nearby[:,1], alpha=0.2)
-# plt.show()
-
-# i need to look at if all the near neighbours lie within a give angle band lowkey. 
-#just draw everything once?
-i=0
-while i<10:
-    new_nearby, new_focal, nearby, focal= generate_new_focal_bat_given_angle(2, 3*np.pi/2, 0.1, **simulation_parameters)
-    # nearest_5= find_n_nearest_points(focal, nearby, 3)
-    nearest_5_new= find_n_nearest_points(new_focal, new_nearby,3)
-    c=np.random.rand(3,)
-    x= [focal[0], new_focal[0]]
-    y= [focal[1], new_focal[1]]
-    for point in nearest_5_new:
-        x= [point[0], new_focal[0]]
-        y= [point[1], new_focal[1]]
-        plt.plot(x,y, c=c)
-    plt.scatter(focal[0], focal[1])
-    plt.scatter(new_nearby[:,0], new_nearby[:,1], alpha=0.2)
-    i+=1
-plt.show()
